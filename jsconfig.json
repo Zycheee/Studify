@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": [
+    "src",
+    "frontend/src/lib",
+    "frontend/src/components/magicui/ripple-button.jsx"
+  ]
+}
