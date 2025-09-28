@@ -1,5 +1,4 @@
 import React from "react";
-import Sidebar from "../components/sidebar.jsx";
 import Post from "../HomePage/components/post.jsx";
 import Friendbar from "../FriendsPage/components/Friendbar.jsx";
 import Streak from "../components/Streak.jsx";
