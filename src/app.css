@@ -48,7 +48,7 @@
 }
 @layer post {
   .Post1 {
-    @apply p-5 min-h-max w-170 rounded-2xl  bg-[#C7D8EE];
+    @apply p-5 min-h-full min-w-50 md:gap-6  rounded-2xl  bg-[#C7D8EE];
   }
   .post-text {
     @apply font-semibold text-2xl;

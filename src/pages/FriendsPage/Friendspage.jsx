@@ -1,6 +1,6 @@
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import User from "../components/User.jsx";
+import UserOverview from "../FriendsPage/components/UserOverview";
 import UserRequest from "./components/UserRequest.jsx";
 
 const Friendspage = () => {
@@ -14,9 +14,9 @@ const Friendspage = () => {
         <div>
           <h1 className="font-bold text-[30px] ">Your Friends</h1>
           <div className="">
-            <User />
-            <User />
-            <User />
+            <UserOverview />
+            <UserOverview />
+            <UserOverview />
           </div>
         </div>
 

@@ -68,10 +68,10 @@ const Post = () => {
   };
 
   return (
-    <div className="pt-16 pl-16 text-left font-sans">
-      <div className="grid grid-cols-1 gap-8">
+    <div className="mt-5 font-sans">
+      <div className="grid grid-cols-1 gap-5">
         {userInfo.map((personPost, idx) => (
-          <div key={idx} className="Post1 column1">
+          <div key={idx} className="Post1 column1 ">
             <button className="flex items-center gap-3">
               {/*USER ICON */}
               <img
@@ -81,9 +81,12 @@ const Post = () => {
               />
               <div className="flex flex-col items-start">
                 {/*PERSON NAME */}
-                <h2 className="pt-1 hover:text-[#0084ff] hover:underline cursor-pointer">
+                <span
+                  className="pt-1 font-semibold hover:text-[#0084ff] hover:underline cursor-pointer 
+                text-[rgb(33,33,33)] text-[23px]"
+                >
                   {personPost.name}
-                </h2>
+                </span>
                 {/*PERSON DATE */}
                 <span className="text-[rgb(104,103,103)] font-normal">
                   {personPost.date}
