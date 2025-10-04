@@ -1,6 +1,6 @@
 import React from "react";
 import Post from "../HomePage/components/post.jsx";
-import Friendbar from "../FriendsPage/components/Friendbar.jsx";
+import Friendbar from "./components/Friendbar.jsx";
 import Streak from "../components/Streak.jsx";
 
 export default function HomePage() {

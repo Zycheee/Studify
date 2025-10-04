@@ -7,10 +7,12 @@ const Friendspage = () => {
   return (
     <div className="p-5 font-sans">
       <input
+        id="search"
+        type="search"
         className="searchbar searchtext "
         placeholder="Search a user"
       ></input>
-      <div className="pt-10 flex flex-row pr-45 justify-around gap-50 ">
+      <div className="pt-10 lg:flex  sm:col-span-1 pr-45 justify-around gap-50 ">
         <div>
           <h1 className="font-bold text-[30px] ">Your Friends</h1>
           <div className="">

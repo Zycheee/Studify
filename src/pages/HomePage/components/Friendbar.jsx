@@ -1,5 +1,5 @@
 import React from "react";
-import User from "../../HomePage/components/User";
+import User from "./User";
 const Friendbar = () => {
   return (
     <div className="pt-1 pl-16 text-left">

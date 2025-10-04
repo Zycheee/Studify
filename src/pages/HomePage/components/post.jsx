@@ -68,7 +68,7 @@ const Post = () => {
   };
 
   return (
-    <div className="mt-5 font-sans">
+    <div className="mt-5 font-sans transition ease-in-out delay-150 duration-300">
       <div className="grid grid-cols-1 gap-5">
         {userInfo.map((personPost, idx) => (
           <div key={idx} className="Post1 column1 ">

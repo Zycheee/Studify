@@ -93,14 +93,14 @@ const UserOverview = () => {
         .map((person, index) => (
           <button
             key={person.name}
-            className="flex items-start gap-2 p-2 rounded-[15px] duration-300 ease-out border-gray-400 hover:shadow-lg hover:bg-gray-100 lg:min-w-120 md:min-w-100 sm:min-w-70 "
+            className="flex items-start gap-2 p-2 rounded-[15px] duration-300 ease-out border-gray-400 hover:shadow-lg hover:bg-gray-100 lg:min-w-120 md:min-w-100 sm:min-w-0 "
           >
             <img
               src={person.icon}
               className="w-15 h-15 rounded-full"
               alt="User"
             />
-            <div className="flex flex-row lg:flex-col flex-wrap items-start">
+            <div className="flex flex-row lg:flex-col flex-wrap col-span-5 items-start">
               <span className="font-semibold text-[25px]  text-wrap">
                 {person.name}
               </span>
@@ -112,7 +112,7 @@ const UserOverview = () => {
               </span>
             </div>
             <div className="ml-auto">
-              <button className="border-2 border-gray-500 rounded-[10px] p-4 hover:shadow-2xl  hover:bg-[#e4e4e4] lg:flex-row ">
+              <button className="border-2 min-w-auto md:min-h-full border-gray-500 rounded-[10px] p-4 hover:shadow-2xl  hover:bg-[#e4e4e4] lg:flex-row ">
                 View Profile
               </button>
             </div>

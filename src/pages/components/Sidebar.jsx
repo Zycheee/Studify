@@ -54,7 +54,7 @@ const Sidebar = () => {
         />
         {!isOpen && (
           <h2
-            className={`transition-opacity duration-300 whitespace-nowrap 
+            className={`transition-opacity duration-150 whitespace-nowrap 
     ${isOpen ? "opacity-0" : "opacity-100"}`}
           >
             Haggai Estavilla
