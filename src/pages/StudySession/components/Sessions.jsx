@@ -57,11 +57,12 @@ const Sessions = () => {
 
   return (
     <div className="p-4 flex flex-row flex-wrap content-between gap-5">
-      <div className="flex justify-center items-center mt-5 min-w-250 min-h-180  bg-[#3A7BCE] rounded-[50px] pb-5 pt-10 text-[#e5f1fd] hover:scale-102 ease-out duration-200">
+      <div className="flex justify-center items-center mt-5 min-w-230 min-h-180  bg-[#3A7BCE] rounded-[50px] pb-5 pt-10 text-[#e5f1fd] hover:scale-102 ease-out duration-200">
         {category.map((cat) => (
           <div>
             <span className=" text-[100px] font-sans font-bold pb-5">
               {cat.title}
+              {cat == activeId}
             </span>
 
             {/* 🕒 Timer display */}
@@ -69,7 +70,7 @@ const Sessions = () => {
               {formatTime(times[cat.id])}
             </span>
             <span className="flex justify-center animate-pulse text-[20px]">
-              Shhhhhhhh.....
+              "Shhhhhhhh....."
             </span>
             {/* ▶️ Play / ⏸ Pause button */}
             <div className="flex justify-center pt-5">

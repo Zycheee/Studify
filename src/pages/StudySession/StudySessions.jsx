@@ -8,7 +8,7 @@ const StudySessions = () => {
       <h1 className="text-3xl font-bold mb-4">Study Sessions</h1>
       <p className="text-gray-600">Manage your study sessions here.</p>
       <div className="flex gap-4">
-        <div className="">
+        <div className="flex justify-items-center">
           <Sessions />
         </div>
         <div>

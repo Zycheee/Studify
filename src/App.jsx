@@ -1,8 +1,4 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./pages/components/Layout.jsx";
 import HomePage from "./pages/HomePage/homepage.jsx";
 import FriendsPage from "./pages/FriendsPage/Friendspage.jsx";
@@ -11,24 +7,22 @@ import Notifications from "./pages/Notifications/Notifications.jsx";
 import Pet from "./pages/Pet/Pet.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      { index: true, element: <Navigate to="home" /> }, // Redirect when on "/"
-      { path: "home", element: <HomePage /> },
-      { path: "StudySession", element: <StudySession /> },
-      { path: "Friends", element: <FriendsPage /> },
-      { path: "pet", element: <Pet /> },
-      { path: "notifications", element: <Notifications /> },
-      { path: "profile", element: <Profile /> },
-    ],
-  },
-]);
-
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <Router>
+      <Routes>
+        {/* ✅ Layout wraps all pages */}
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="friends" element={<FriendsPage />} />
+          <Route path="studysession" element={<StudySession />} />
+          <Route path="pet" element={<Pet />} />
+          <Route path="notifications" element={<Notifications />} />
+          <Route path="profile" element={<Profile />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
-
 export default App;
