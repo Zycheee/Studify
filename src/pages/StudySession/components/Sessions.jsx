@@ -54,7 +54,7 @@ const Sessions = () => {
       setActiveId(id);
     }
   };
-
+  //gg
   return (
     <div className="p-4 flex flex-row flex-wrap content-between gap-5">
       <div className="flex justify-center items-center mt-5 min-w-230 min-h-180  bg-[#3A7BCE] rounded-[50px] pb-5 pt-10 text-[#e5f1fd] hover:scale-102 ease-out duration-200">
