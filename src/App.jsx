@@ -7,7 +7,8 @@ import Notifications from "./pages/Notifications/Notifications.jsx";
 import Pet from "./pages/Pet/Pet.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 
-function App() {
+function App() 
+{
   return (
     <Router>
       <Routes>
