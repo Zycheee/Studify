@@ -153,7 +153,7 @@ const Signup = () => {
                 />
                 {error.password && (
                   <p className="text-red-500 text-sm ">
-                    Password must be more than 6 characters.
+                    Please enter a valid email address.
                   </p>
                 )}
                 <input
@@ -167,7 +167,7 @@ const Signup = () => {
                 />
                 {error.password && (
                   <p className="text-red-500 text-sm ">
-                    Please enter a valid email address.
+                    Password must be more than 6 characters.
                   </p>
                 )}
                 <input
