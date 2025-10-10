@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Layout from "./pages/components/Layout.jsx";
 import HomePage from "./pages/HomePage/homepage.jsx";
 import FriendsPage from "./pages/FriendsPage/Friendspage.jsx";
@@ -13,11 +18,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Auth routes */}
-        <Route path="/" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        {/* Redirect root to login */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
 
-        {/* Main layout */}
+        {/* Auth routes */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Signup />} />
+
+        {/* Main layout with nested routes */}
         <Route path="/" element={<Layout />}>
           <Route path="home" element={<HomePage />} />
           <Route path="friends" element={<FriendsPage />} />

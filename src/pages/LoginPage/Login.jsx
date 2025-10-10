@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Design from "/logindesign.gif";
 import Logo from "/logo.png";
 import home from "../HomePage/homepage";
-import signup from "../SingupPage/Signup";
+import register from "../SingupPage/Signup";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -23,7 +23,7 @@ const Login = () => {
     let hasError = false;
 
     // Email validation
-    if (!email || !email.includes("@")) {
+    if (!email || !email.includes("@") || !email.includes(".")) {
       setError((prev) => ({ ...prev, email: true }));
       hasError = true;
     } else {
@@ -56,7 +56,7 @@ const Login = () => {
     <div>
       <div className="flex flex-col justify-center items-center min-h-screen font-sans bg-[#f7ffff] animate-fadeIn">
         {/* Studify header at the top */}
-        <div className="flex mt-7 md:mt-0 md:absolute md:top-6 md:left-8 gap-2">
+        <div className="flex mt-4 md:mt-0 md:absolute md:top-6 md:left-8 gap-2">
           <img src={Logo} alt="logo" className="w-10 h-10"></img>
           <span className="text-4xl font-bold text-[#267ae9]">Studify</span>
         </div>
@@ -149,7 +149,7 @@ const Login = () => {
                 <label>
                   Not a member yet?{" "}
                   <span
-                    onClick={() => navigate("/signup")}
+                    onClick={() => navigate("/register")}
                     className="text-blue-600 font-semibold transition-all
                     ease-in-out delay-75 cursor-pointer hover:underline"
                   >
