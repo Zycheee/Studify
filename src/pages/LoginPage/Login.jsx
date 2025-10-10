@@ -9,8 +9,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const users = [
-    { email: "admin123@", password: "123456" },
-    { email: "user123@", password: "123456" },
+    { email: "admin123@gmail.com", password: "123456" },
+    { email: "user123@gmail.com", password: "123456" },
   ];
 
   const [email, setEmail] = useState("");
