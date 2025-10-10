@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Design from "/logindesign.gif";
 import Logo from "/logo.png";
 import home from "../HomePage/homepage";
+import signup from "../SingupPage/Signup";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -16,6 +17,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState({ email: false, password: false });
   const [valid, setValid] = useState({ valid: false });
+  const [clicked, setClicked] = useState(false);
 
   const loginClick = () => {
     let hasError = false;
@@ -66,7 +68,7 @@ const Login = () => {
             className="
     rounded-[20px]
     transition-all duration-500 ease-in-out
-   w-100 lg:w-150 xl:w-200 
+   w-100 hidden md:block xl:w-200 
   "
           />
           <div className="flex-col flex  md:w-50 lg:w-100">
@@ -146,7 +148,11 @@ const Login = () => {
               <div className="flex justify-center font-regular">
                 <label>
                   Not a member yet?{" "}
-                  <span className="text-blue-600 font-semibold transition-all ease-in-out delay-75 cursor-pointer hover:underline">
+                  <span
+                    onClick={() => navigate("/signup")}
+                    className="text-blue-600 font-semibold transition-all
+                    ease-in-out delay-75 cursor-pointer hover:underline"
+                  >
                     Register here
                   </span>
                 </label>
