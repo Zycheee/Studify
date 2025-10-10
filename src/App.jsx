@@ -6,15 +6,19 @@ import StudySession from "./pages/StudySession/StudySessions.jsx";
 import Notifications from "./pages/Notifications/Notifications.jsx";
 import Pet from "./pages/Pet/Pet.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
-
+import Login from "./pages/LoginPage/Login.jsx";
+import Signup from "./pages/SingupPage/Signup.jsx";
 function App() {
   return (
     <Router>
       <Routes>
-        {/* ✅ Layout wraps all pages */}
+        {/* Auth routes */}
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
+        {/* Main layout */}
         <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="/home" element={<HomePage />} />
+          <Route path="home" element={<HomePage />} />
           <Route path="friends" element={<FriendsPage />} />
           <Route path="studysession" element={<StudySession />} />
           <Route path="pet" element={<Pet />} />
@@ -25,4 +29,5 @@ function App() {
     </Router>
   );
 }
+
 export default App;
