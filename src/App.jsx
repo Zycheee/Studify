@@ -8,6 +8,7 @@ import Pet from "./pages/Pet/Pet.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import Login from "./pages/LoginPage/Login.jsx";
 import Signup from "./pages/SingupPage/Signup.jsx";
+
 function App() {
   return (
     <Router>
