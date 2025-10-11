@@ -4,6 +4,8 @@ import Logo from "/logo.png";
 import home from "../HomePage/homepage";
 import register from "../SingupPage/Signup";
 import { useNavigate } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,8 +19,11 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState({ email: false, password: false });
   const [valid, setValid] = useState({ valid: false });
-  const [clicked, setClicked] = useState(false);
+  const [show, setShow] = useState(false);
 
+  const handleClick = () => {
+    setShow(!show);
+  };
   const loginClick = () => {
     let hasError = false;
 
@@ -61,14 +66,14 @@ const Login = () => {
           <span className="text-4xl font-bold text-[#267ae9]">Studify</span>
         </div>
         {/* Card Container */}
-        <div className="flex flex-col md:flex-row items-center p-8 gap-30">
+        <div className="flex flex-col md:flex-row items-center p-8 gap-30 ">
           <img
             src={Design}
             alt="design"
             className="
     rounded-[20px]
     transition-all duration-500 ease-in-out
-   w-100 hidden md:block xl:w-200 
+    w-100 hidden md:block lg:w-150 xl:w-200 
   "
           />
           <div className="flex-col flex  md:w-50 lg:w-100">
@@ -90,8 +95,8 @@ const Login = () => {
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={`border-b-2 rounded-[2px] p-2 pl-3 mt-2 focus:bg-gray-200 outline-0 transition-all ease-in-out delay-75 ${
-                    error.email ? "border-b-red-500" : "border-b-[#d3d3d3]"
+                  className={`border-b-2 rounded-[2px] w-full p-2 pl-3 mt-2 border-b-[#d3d3d3] focus:bg-gray-100 focus:border-b-[#313131] outline-0 transition-all ease-in-out delay-75 ${
+                    error.email ? "border-b-red-500" : ""
                   }`}
                 />
                 {error.email && (
@@ -99,25 +104,35 @@ const Login = () => {
                     Please enter a valid email address.
                   </p>
                 )}
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className={`border-b-2 rounded-[2px] p-2 pl-3 mt-5 focus:bg-gray-200 outline-0 transition-all ease-in-out delay-75 ${
-                    error.password ? "border-b-red-500" : "border-b-[#d3d3d3]"
-                  }`}
-                />
-                {error.password && (
-                  <p className="text-red-500 text-sm ">
-                    Password must be more than 6 characters.
-                  </p>
-                )}
-                {valid.valid && (
-                  <p className="text-red-500 text-sm ">
-                    Invalid email or password! Please try again.
-                  </p>
-                )}
+                <div className="relative">
+                  <input
+                    type={show ? "text" : "password"}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className={`border-b-2 rounded-[2px] p-2 pl-3 mt-2 w-full border-b-[#d3d3d3]
+      focus:bg-gray-100 focus:border-b-[#313131] outline-0 transition-all ease-in-out delay-75 ${
+        error.password ? "border-b-red-500" : ""
+      }`}
+                  />
+                  <div
+                    onClick={handleClick}
+                    className="absolute right-3 top-1/2 -translate-y-3  cursor-pointer text-gray-600 hover:text-black"
+                  >
+                    {show ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </div>
+
+                  {error.password && (
+                    <p className="text-red-500 text-sm ">
+                      Password must be more than 6 characters.
+                    </p>
+                  )}
+                  {valid.valid && (
+                    <p className="text-red-500 text-sm ">
+                      Invalid email or password! Please try again.
+                    </p>
+                  )}
+                </div>
               </div>
               <div className="flex flex-center justify-between gap-5">
                 <label
@@ -140,7 +155,7 @@ const Login = () => {
               </div>
               <button
                 onClick={loginClick}
-                className="mt-5 p-3 bg-[#267ae9] hover:bg-[#1a61be] text-white rounded-[10px] transition-all cursor-pointer"
+                className="p-3 bg-[#267ae9] hover:bg-[#1a61be] text-white rounded-[10px] transition-all cursor-pointer"
               >
                 Login
               </button>

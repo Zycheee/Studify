@@ -5,6 +5,8 @@ import home from "../HomePage/homepage";
 import login from "../LoginPage/Login";
 import register from "../SingupPage/Signup";
 import { useNavigate } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -24,7 +26,12 @@ const Signup = () => {
   });
   const [valid, setValid] = useState({ valid: false });
   const [clicked, setClicked] = useState(false);
+  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
 
+  const handleClick = () => {
+    setShow(!show);
+  };
   const loginClick = () => {
     let hasError = false;
 
@@ -53,7 +60,7 @@ const Signup = () => {
     }
 
     // Password validation
-    if (password !== confirmPassword) {
+    if (password != confirmPassword) {
       setError((prev) => ({ ...prev, confirmPassword: true }));
       hasError = true;
     } else {
@@ -91,7 +98,7 @@ const Signup = () => {
    w-100 hidden md:block xl:w-200 mb-25
   "
           />
-          <div className="flex-col flex  md:w-50 lg:w-100">
+          <div className="flex-col flex ">
             <span className="text-[40px] mb-2 font-bold text-gray-700">
               Create a account
             </span>
@@ -109,7 +116,7 @@ const Signup = () => {
                       placeholder="First name"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
-                      className={`w-full border-b-2 rounded-[2px] p-2 pl-3 mt-2 focus:bg-gray-200 outline-0 transition-all ease-in-out delay-75 ${
+                      className={`w-full border-b-2 rounded-[2px] p-2 pl-3 mt-2 border-b-[#d3d3d3] focus:bg-gray-100 focus:border-b-[#313131] outline-0 transition-all ease-in-out delay-75 ${
                         error.firstName
                           ? "border-b-red-500"
                           : "border-b-[#d3d3d3]"
@@ -128,7 +135,7 @@ const Signup = () => {
                       placeholder="Last name"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
-                      className={`w-full border-b-2 rounded-[2px] p-2 pl-3 mt-2 focus:bg-gray-200 outline-0 transition-all ease-in-out delay-75 ${
+                      className={`border-b-2 w-full rounded-[2px] p-2 pl-3 mt-2 border-b-[#d3d3d3] focus:bg-gray-100 focus:border-b-[#313131] outline-0 transition-all ease-in-out delay-75 ${
                         error.lastName
                           ? "border-b-red-500"
                           : "border-b-[#d3d3d3]"
@@ -147,7 +154,7 @@ const Signup = () => {
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={`border-b-2 rounded-[2px] p-2 pl-3 mt-2 focus:bg-gray-200 outline-0 transition-all ease-in-out delay-75 ${
+                  className={`border-b-2 rounded-[2px] p-2 pl-3 mt-2 border-b-[#d3d3d3] focus:bg-gray-100 focus:border-b-[#313131] outline-0 transition-all ease-in-out delay-75 ${
                     error.email ? "border-b-red-500" : "border-b-[#d3d3d3]"
                   }`}
                 />
@@ -156,41 +163,58 @@ const Signup = () => {
                     Please enter a valid email address.
                   </p>
                 )}
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className={`border-b-2 rounded-[2px] p-2 pl-3 mt-5 focus:bg-gray-200 outline-0 transition-all ease-in-out delay-75 ${
-                    error.password ? "border-b-red-500" : "border-b-[#d3d3d3]"
-                  }`}
-                />
-                {error.password && (
-                  <p className="text-red-500 text-sm ">
-                    Password must be more than 6 characters.
-                  </p>
-                )}
-                <input
-                  type="password"
-                  placeholder="Confirm password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={`border-b-2 rounded-[2px] p-2 pl-3 mt-5 focus:bg-gray-200 outline-0 transition-all ease-in-out delay-75 ${
-                    error.confirmPassword
-                      ? "border-b-red-500"
-                      : "border-b-[#d3d3d3]"
-                  }`}
-                />
-                {error.confirmPassword && (
-                  <p className="text-red-500 text-sm ">
-                    Confirm Password must be the same as your password.
-                  </p>
-                )}
-                {valid.valid && (
-                  <p className="text-red-500 text-sm ">
-                    Invalid email or password! Please try again.
-                  </p>
-                )}
+                <div className="relative">
+                  <input
+                    type={show ? "text" : "password"}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className={`border-b-2 rounded-[2px] p-2 pl-3 mt-2 w-full border-b-[#d3d3d3] focus:bg-gray-100 focus:border-b-[#313131] outline-0 transition-all ease-in-out delay-75 ${
+                      error.password ? "border-b-red-500" : "border-b-[#d3d3d3]"
+                    }`}
+                  />
+                  <div
+                    onClick={handleClick}
+                    className="absolute right-3 top-1/2 -translate-y-3 cursor-pointer text-gray-600 hover:text-black"
+                  >
+                    {show ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </div>
+                  {error.password && (
+                    <p className="text-red-500 text-sm ">
+                      Password must be more than 6 characters.
+                    </p>
+                  )}
+                </div>
+
+                <div className="relative">
+                  <input
+                    type={show1 ? "text" : "password"}
+                    placeholder="Confirm password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className={`border-b-2 rounded-[2px] p-2 pl-3 mt-2 w-full border-b-[#d3d3d3] focus:bg-gray-100 focus:border-b-[#313131] outline-0 transition-all ease-in-out delay-75 ${
+                      error.confirmPassword
+                        ? "border-b-red-500"
+                        : "border-b-[#d3d3d3]"
+                    }`}
+                  />
+                  <div
+                    onClick={() => setShow1(!show1)}
+                    className="absolute right-3 top-1/2 -translate-y-3 cursor-pointer text-gray-600 hover:text-black"
+                  >
+                    {show1 ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                  </div>
+                  {error.confirmPassword && (
+                    <p className="text-red-500 text-sm ">
+                      Confirm Password must be the same as your password.
+                    </p>
+                  )}
+                  {valid.valid && (
+                    <p className="text-red-500 text-sm ">
+                      Invalid email or password! Please try again.
+                    </p>
+                  )}
+                </div>
               </div>
               <button
                 onClick={loginClick}
