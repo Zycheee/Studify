@@ -81,7 +81,7 @@ const Signup = () => {
 
   return (
     <div>
-      <div className="flex flex-col justify-center items-center min-h-screen font-sans bg-[#f7ffff] animate-fadeIn">
+      <div className="flex flex-col justify-center items-center min-h-screen font-sans bg-[#ffffff] animate-fadeIn">
         {/* Studify header at the top */}
         <div className="flex mt-4 md:mt-0 md:absolute md:top-6 md:left-8 gap-2">
           <img src={Logo} alt="logo" className="w-10 h-10"></img>
