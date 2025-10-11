@@ -175,7 +175,9 @@ const Signup = () => {
                   />
                   <div
                     onClick={handleClick}
-                    className="absolute right-3 top-1/2 -translate-y-3 cursor-pointer text-gray-600 hover:text-black"
+                    className={`absolute right-3 top-1/2 -translate-y-3  cursor-pointer text-gray-600 hover:text-black ${
+                      error.password ? "-translate-y-5" : ""
+                    }`}
                   >
                     {show ? <VisibilityIcon /> : <VisibilityOffIcon />}
                   </div>
@@ -200,7 +202,9 @@ const Signup = () => {
                   />
                   <div
                     onClick={() => setShow1(!show1)}
-                    className="absolute right-3 top-1/2 -translate-y-3 cursor-pointer text-gray-600 hover:text-black"
+                    className={`absolute right-3 top-1/2 -translate-y-3  cursor-pointer text-gray-600 hover:text-black ${
+                      error.confirmPassword ? "-translate-y-5" : ""
+                    }`}
                   >
                     {show1 ? <VisibilityIcon /> : <VisibilityOffIcon />}
                   </div>
