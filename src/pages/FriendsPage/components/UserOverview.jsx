@@ -87,21 +87,21 @@ const UserOverview = () => {
   };
 
   return (
-    <div className="flex flex-col gap-2 mt-3 font-sans">
+    <div className="flex flex-col gap-2 w-full mt-3 font-sans">
       {userInfo
         .filter((person) => person.status === "online")
         .map((person, index) => (
           <button
             key={person.name}
-            className="flex items-start gap-2 p-2 rounded-[15px] duration-300 ease-out border-gray-400 hover:shadow-lg hover:bg-gray-100 lg:min-w-120 md:min-w-100 sm:min-w-0 "
+            className="flex items-start gap-2 p-2 full rounded-[15px] duration-300 ease-out border-gray-400 hover:shadow-lg hover:bg-gray-100 "
           >
             <img
               src={person.icon}
-              className="w-15 h-15 rounded-full"
+              className="w-15 h-15 shadow-xl rounded-full border-2 border-gray-300 cursor-pointer transition-all ease-in-out delay-25"
               alt="User"
             />
-            <div className="flex flex-row lg:flex-col flex-wrap col-span-5 items-start">
-              <span className="font-semibold text-[25px]  text-wrap">
+            <div className="flex flex-col justify-center items-start">
+              <span className="font-semibold text-[25px] text-wrap">
                 {person.name}
               </span>
               <span className="font-normal pb-1 text-gray-500">
@@ -112,8 +112,8 @@ const UserOverview = () => {
               </span>
             </div>
             <div className="ml-auto">
-              <button className="border-2 min-w-auto md:min-h-full border-gray-500 rounded-[10px] p-4 hover:shadow-2xl  hover:bg-[#e4e4e4] lg:flex-row ">
-                View Profile
+              <button className="border-2  border-gray-500 rounded-[10px] p-4 active:bg-gray-400 cursor-pointer hover:bg-[#e4e4e4] ">
+                <p className="font-semibold">View Profile</p>
               </button>
             </div>
           </button>

@@ -12,12 +12,10 @@ const Friendspage = () => {
         className="searchbar searchtext "
         placeholder="Search a user"
       ></input>
-      <div className="pt-10 lg:flex  sm:col-span-1 pr-45 justify-around gap-50 ">
-        <div>
+      <div className="flex flex-col lg:flex-row justify-evenly gap-10 pt-10">
+        <div className="">
           <h1 className="font-bold text-[30px] ">Your Friends</h1>
           <div className="">
-            <UserOverview />
-            <UserOverview />
             <UserOverview />
           </div>
         </div>

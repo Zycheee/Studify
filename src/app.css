@@ -18,10 +18,10 @@
     @apply font-semibold text-[20px];
   }
   .button-red {
-    @apply duration-300 ease-out bg-red-500 text-white font-bold h-17 w-35 py-2 px-4 rounded-[10px] hover:bg-red-700 cursor-pointer;
+    @apply duration-300 ease-in-out bg-red-500 text-white font-bold w-full   p-5 rounded-[10px] active:bg-red-950 hover:bg-red-700 cursor-pointer;
   }
   .button-blue {
-    @apply duration-300 ease-out bg-blue-500 text-white w-35 h-17 font-bold py-2 px-4 rounded-[10px] hover:bg-blue-600 cursor-pointer;
+    @apply duration-300 ease-in-out bg-blue-500 text-white font-bold w-full     p-4 rounded-[10px] active:bg-blue-950 hover:bg-blue-700 cursor-pointer;
   }
 }
 

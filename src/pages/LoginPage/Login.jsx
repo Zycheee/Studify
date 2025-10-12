@@ -66,14 +66,14 @@ const Login = () => {
           <span className="text-4xl font-bold text-[#267ae9]">Studify</span>
         </div>
         {/* Card Container */}
-        <div className="flex flex-col md:flex-row items-center p-8 gap-30 ">
+        <div className="flex flex-col w-full justify-center md:flex-row items-center p-8 gap-30 ">
           <img
             src={Design}
             alt="design"
             className="
     rounded-[20px]
     transition-all duration-500 ease-in-out
-    w-100 hidden md:block lg:w-150 xl:w-200 
+   w-100 hidden md:block md:w-120 xl:w-200 
   "
           />
           <div className="flex-col flex  md:w-50 lg:w-100">

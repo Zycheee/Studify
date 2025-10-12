@@ -96,7 +96,7 @@ const UserNotifications = () => {
         <div className="flex flex-row flex-center gap-2 p-4 rounded-[20px] hover:bg-gray-100 hover:shadow-xl transition-all ease-in-out delay-25">
           <img
             src={person.icon}
-            className="w-15 h-15 grow shadow-xl rounded-full border-2 border-gray-300 hover:scale-107 cursor-pointer transition-all ease-in-out delay-25"
+            className="w-15 h-15  shadow-xl rounded-full border-2 border-gray-300 hover:scale-107 cursor-pointer transition-all ease-in-out delay-25"
           />
           <div className="w-full text-gray-700">
             <div className="flex items-center gap-2">
