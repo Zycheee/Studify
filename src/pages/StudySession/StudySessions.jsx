@@ -4,18 +4,12 @@ import FriendBar from "../HomePage/components/Friendbar.jsx";
 import Streak from "../components/Streak.jsx";
 const StudySessions = () => {
   return (
-    <div className="gap-4 p-4">
-      <h1 className="text-3xl font-bold mb-4">Study Sessions</h1>
-      <p className="text-gray-600">Manage your study sessions here.</p>
-      <div className="flex gap-4">
-        <div className="flex justify-items-center">
-          <Sessions />
-        </div>
-        <div>
-          <div>
-            <Streak />
-          </div>
-          <div>
+    <div className="flex flex-col lg:flex-row justify-between w-full min-h-screen p-5">
+      <div className="flex-1 lg:flex justify-center items-center">
+        <Sessions />
+        <div className="flex flex-col pl-10 flex-center lg:space-x-0 space-x-20 ">
+          <Streak />
+          <div className="lg:mr-0  mr-30">
             <FriendBar />
           </div>
         </div>

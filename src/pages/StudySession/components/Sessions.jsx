@@ -56,43 +56,45 @@ const Sessions = () => {
   };
   //gg
   return (
-    <div className="p-4 flex flex-row flex-wrap content-between gap-5">
-      <div className="flex justify-center items-center mt-5 min-w-230 min-h-180  bg-[#3A7BCE] rounded-[50px] pb-5 pt-10 text-[#e5f1fd] hover:scale-102 ease-out duration-200">
-        {category.map((cat) => (
-          <div>
-            <span className=" text-[100px] font-sans font-bold pb-5">
-              {cat.title}
-              {cat == activeId}
-            </span>
+    <div className="w-full h-full flex flex-col justify-center items-center bg-[#3A7BCE] rounded-[30px] text-[#e5f1fd] transition-all ease-in-out duration-200 p-5 pl-10">
+      {category.map((cat) => (
+        <div className="">
+          <span className="flex flex-center text-[100px] font-sans font-bold pb-5">
+            {cat.title}
+            {cat == activeId}
+          </span>
 
-            {/* 🕒 Timer display */}
-            <span className="flex  justify-center text-[40px] font-sans font-bold pb-5">
-              {formatTime(times[cat.id])}
-            </span>
-            <span className="flex justify-center animate-pulse text-[20px]">
-              "Shhhhhhhh....."
-            </span>
-            {/* ▶️ Play / ⏸ Pause button */}
-            <div className="flex justify-center pt-5">
-              <div className="flex align-middle justify-center pb-5 h-30 w-30 bg-[#062a58] rounded-full">
-                <button
-                  onClick={() => handleToggle(cat.id)}
-                  className="text-[70px] text-[#e5f1fd]"
-                >
-                  {activeId === cat.id ? (
-                    <PauseRoundedIcon
-                      fontSize="inherit"
-                      className="transition-transform ease-in-out duration-200"
-                    />
-                  ) : (
-                    <PlayArrowRoundedIcon fontSize="inherit" />
-                  )}
-                </button>
-              </div>
+          {/* 🕒 Timer display */}
+          <span className="flex flex-center text-[40px] font-sans font-bold pb-5">
+            {formatTime(times[cat.id])}
+          </span>
+          <span className="flex flex-center animate-pulse text-[20px]">
+            "Shhhhhhhh....."
+          </span>
+          {/* ▶️ Play / ⏸ Pause button */}
+          <div className="flex flex-center pt-5">
+            <div className="hover:scale-110   transition-all ease-in-out duration-200 flex align-middle justify-center pb-5 h-30 w-30 bg-[#062a58] rounded-full">
+              <button
+                onClick={() => handleToggle(cat.id)}
+                className="text-[65px]  text-[#e5f1fd]"
+              >
+                {activeId === cat.id ? (
+                  <PauseRoundedIcon
+                    fontSize="inherit"
+                    className="cursor-pointer transition-all ease-in-out duration-200"
+                  />
+                ) : (
+                  <PlayArrowRoundedIcon
+                    fontSize="inherit"
+                    c
+                    className="cursor-pointer  transition-all ease-in-out duration-200"
+                  />
+                )}
+              </button>
             </div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 };

@@ -65,7 +65,7 @@ const Sidebar = () => {
             className={`transition-all duration-300  ${
               isOpen
                 ? "ml-3 rotate-180 translate-x-5 opacity-0"
-                : " rotate-0 translate-x-6 cursor-pointer"
+                : " rotate-0 translate-x-3 cursor-pointer"
             }
 `}
           />
