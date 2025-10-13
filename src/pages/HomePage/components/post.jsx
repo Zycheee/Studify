@@ -68,7 +68,7 @@ const Post = () => {
   };
 
   return (
-    <div className="mt-5 font-sans transition ease-in-out delay-150 duration-300">
+    <div className="mt-5 font-sans transition ease-in-out delay-150 duration-300 text-gray-700 ">
       <div className="grid grid-cols-1 gap-5">
         {userInfo.map((personPost, idx) => (
           <div key={idx} className="Post1 column1 ">
@@ -77,50 +77,53 @@ const Post = () => {
               <img
                 src={personPost.icon}
                 alt="User icon"
-                className="Icon object-cover w-12 h-12"
+                className="w-13 h-13 shadow-xl rounded-full  border-gray-200 cursor-pointer transition-all ease-in-out delay-25"
               />
               <div className="flex flex-col items-start">
                 {/*PERSON NAME */}
                 <span
-                  className="pt-1 font-semibold hover:text-[#0084ff] hover:underline cursor-pointer 
-                text-[rgb(33,33,33)] text-[23px]"
+                  className="pt-1 font-semibold hover:underline cursor-pointer 
+                text-xl"
                 >
                   {personPost.name}
                 </span>
                 {/*PERSON DATE */}
-                <span className="text-[rgb(104,103,103)] font-normal">
+                <span className="text-gray-500 text-sm font-normal">
                   {personPost.date}
                 </span>
               </div>
             </button>
             <div className="flex flex-col pt-6">
               {/*PERSON Name, postStatus, and Subject */}
-              <span className="mb-4 font-semibold text-left text-[25px] break-word">
+              <span className="mb-4 font-semibold text-xl">
                 {personPost.name}
                 {/*PERSON postStatus */}
                 <span className="font-normal"> {personPost.postStatus}</span>
                 {/*PERSON Subject */}
                 <span> {personPost.subject}!</span>
               </span>
-              <div className="mt-3 flex items-center gap-1">
+              <div className="mt-1  flex-col flex gap-3">
                 {/*HEART button*/}
-                <button
-                  onClick={() => handleLike(idx)}
-                  className="cursor-pointer"
-                >
-                  <Heart
-                    size={20}
-                    className={
-                      likedPosts[idx]
-                        ? "text-red-500 fill-red-500"
-                        : "text-gray-500"
-                    }
-                  />
-                </button>
-                {/*PERSON likes*/}
-                <span className="font-medium text-gray-700">
-                  {likesCount[idx]}
-                </span>
+                <div className="border-1 w-full border-[#417ecf]/30" />
+                <div className="flex  flex-row items-center gap-2 ">
+                  <button
+                    onClick={() => handleLike(idx)}
+                    className="cursor-pointer"
+                  >
+                    <Heart
+                      size={20}
+                      className={`transition-all ease-in-out duration-75 ${
+                        likedPosts[idx]
+                          ? "text-red-500 fill-red-500"
+                          : "text-gray-500"
+                      }`}
+                    />
+                  </button>
+                  {/*PERSON likes*/}
+                  <span className="font-medium text-sm text-gray-500">
+                    {likesCount[idx]}
+                  </span>
+                </div>
               </div>
             </div>
           </div>

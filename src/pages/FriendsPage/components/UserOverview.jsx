@@ -87,7 +87,7 @@ const UserOverview = () => {
   };
 
   return (
-    <div className="flex flex-col gap-2 w-full mt-3 font-sans">
+    <div className="flex flex-col gap-2 w-full mt-3 font-sans text-gray-700">
       {userInfo
         .filter((person) => person.status === "online")
         .map((person, index) => (
@@ -112,7 +112,7 @@ const UserOverview = () => {
               </span>
             </div>
             <div className="ml-auto">
-              <button className="border-2  border-gray-500 rounded-[10px] p-4 active:bg-gray-400 cursor-pointer hover:bg-[#e4e4e4] ">
+              <button className="border-2  border-gray-500 rounded-[10px] p-4 active:bg-gray-400 cursor-pointer active:text-white hover:bg-[#e4e4e4] transition ease-in-out duration-75">
                 <p className="font-semibold">View Profile</p>
               </button>
             </div>

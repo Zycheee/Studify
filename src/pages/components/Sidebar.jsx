@@ -41,9 +41,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`SideBar sticky top-0 h-screen font-sans  ${
-        isOpen ? "flex justify-start w-[150px]" : "w-[350px]"
-      }`}
+      className={`SideBar ${isOpen ? "flex justify-start w-[115px]" : "w-80"}`}
     >
       <div className="column">
         <img
@@ -52,50 +50,64 @@ const Sidebar = () => {
           className="Icon transition-opacity duration-150 whitespace-nowrap 
         "
         />
-        {!isOpen && (
-          <h2
-            className={`transition-opacity duration-150 whitespace-nowrap 
-    ${isOpen ? "opacity-0" : "opacity-100"}`}
-          >
-            Haggai Estavilla
-          </h2>
-        )}
-        <button className="cursor-pointer " onClick={() => setIsOpen(!isOpen)}>
+        <button className="flex flex-center gap-2">
+          {!isOpen && (
+            <span
+              className={`transition-opacity text-xl font-bold duration-150 whitespace-nowrap 
+        ${isOpen ? "opacity-0" : "opacity-100"}`}
+            >
+              Haggai Estavilla
+            </span>
+          )}
+        </button>
+        <button className=" " onClick={() => setIsOpen(!isOpen)}>
           <ArrowBackIosIcon
-            className={` Transform transition-all duration-300 ${
-              isOpen ? "rotate-180 translate-x-0 " : " rotate-0 translate-x-6"
+            className={`transition-all duration-300  ${
+              isOpen
+                ? "ml-3 rotate-180 translate-x-5 opacity-0"
+                : " rotate-0 translate-x-6 cursor-pointer"
             }
 `}
           />
         </button>
       </div>
-      <div className="pl-4 items-center space-y-5">
-        {buttons.map((btn) => (
-          <button
-            key={btn.name}
-            onClick={() => {
-              setActiveButton(btn.name);
-              navigate(btn.path); // navigate to the page
-            }}
-            className={`button1 ${
-              isOpen
-                ? "w-15 justify-center right-100 pl-3 "
-                : "w-73 pl-4 justify-start "
-            } ${
-              activeButton === btn.name
-                ? "bg-[#90c2ff] text-[#004FA9]"
-                : "hover:bg-[#D5E8FF] text-[#004FA9]"
-            }`}
-          >
-            {btn.icon}
-            <span
-              className={`transition-opacity duration-150 whitespace-nowrap 
-        ${isOpen ? "opacity-0" : "opacity-100"}`}
+      <div className="flex flex-center">
+        <div className="pl-2 space-y-4">
+          {buttons.map((btn) => (
+            <button
+              key={btn.name}
+              onClick={() => {
+                setActiveButton(btn.name);
+                navigate(btn.path); // navigate to the page
+              }}
+              className={`button1 ${
+                isOpen ? "w-15 justify-center right-100 p-3 " : "w-65 p-3 "
+              } ${
+                activeButton === btn.name
+                  ? "bg-[#90c2ff] text-[#004FA9]"
+                  : "hover:bg-[#D5E8FF] text-[#004FA9]"
+              }`}
             >
-              {btn.name}
-            </span>
+              {btn.icon}
+              <span
+                className={`transition-opacity text-md duration-150 whitespace-nowrap 
+        ${isOpen ? "opacity-0" : "opacity-100"}`}
+              >
+                {btn.name}
+              </span>
+            </button>
+          ))}
+          <button className=" " onClick={() => setIsOpen(!isOpen)}>
+            <ArrowBackIosIcon
+              className={` Transform transition-all duration-300 ${
+                isOpen
+                  ? "ml-3 rotate-180 translate-x-0 cursor-pointer"
+                  : " rotate-0 translate-x-6 opacity-0"
+              }
+`}
+            />
           </button>
-        ))}
+        </div>
       </div>
     </div>
   );

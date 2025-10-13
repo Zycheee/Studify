@@ -4,12 +4,9 @@ import Sidebar from "../components/Sidebar.jsx"; // adjust path if needed
 
 const Layout = () => {
   return (
-    <div className="flex">
-      {/* Sidebar stays on the left */}
+    <div className="flex bg-white">
       <Sidebar />
-
-      {/* Page content changes here */}
-      <div className="flex-1 p-4">
+      <div className="w-full min-h-screen ">
         <Outlet />
       </div>
     </div>

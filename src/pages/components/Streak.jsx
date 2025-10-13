@@ -5,14 +5,18 @@ const Streak = () => {
   const streak = [{ name: "Haggai Estavilla", streakDays: 69 }];
 
   return (
-    <div className="flex justify-center w-100 mt-2 font-sans">
+    <div className="flex justify-center w-full mt-2 font-sans">
       {streak.map((person, index) => (
-        <div key={index} className="flex flex-col items-center ">
-          <img src={FireStreakIcon} alt="Fire Streak" className="h-25 w-25" />
-          <span className="font-semibold text-[60px] pl-2">
+        <div key={index} className="flex flex-col items-center gap-3">
+          <img
+            src={FireStreakIcon}
+            alt="Fire Streak"
+            className="flexh-25 w-25"
+          />
+          <span className="font-semibold text-6xl pl-3">
             {person.streakDays}
           </span>
-          <span className="font-semibold text-[30px] pl-5">Days streak</span>
+          <span className="font-semibold text-2xl pl-5 ">Day streak</span>
         </div>
       ))}
     </div>

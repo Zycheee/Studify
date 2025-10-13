@@ -38,7 +38,7 @@
     @apply gap-3 pl-2;
   }
   .Icon {
-    @apply w-17 h-17 rounded-full drop-shadow;
+    @apply w-15 h-15 rounded-full drop-shadow shadow-xl;
   }
 }
 @layer button {
@@ -48,7 +48,9 @@
 }
 @layer post {
   .Post1 {
-    @apply p-5 min-h-full min-w-50 md:gap-6  rounded-2xl  bg-[#C7D8EE];
+    @apply p-5 h-full w-full md:gap-6  rounded-[10px] border-2 font-sans 
+              backdrop-blur-lg bg-[#417ecf]/20 border-r border-[#91bcf5]/20 shadow-lg
+              transition-all duration-300;
   }
   .post-text {
     @apply font-semibold text-2xl;
@@ -61,7 +63,9 @@
 }
 @layer Sidebar {
   .SideBar {
-    @apply flex flex-col items-start bg-[#F3F8FF] min-h-full border-r border-[#DADADA] p-5 gap-4 transition-all duration-300;
+    @apply flex flex-col items-start min-h-full border-r  p-5 gap-4 sticky top-0 h-screen font-sans 
+              backdrop-blur-lg bg-[#F3F8FF]/20 border-white/30 shadow-lg
+              transition-all duration-300;
   }
   .column {
     @apply flex flex-row items-center gap-3 pl-2;

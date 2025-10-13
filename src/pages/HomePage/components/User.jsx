@@ -93,7 +93,7 @@ const User = () => {
         .map((person, index) => (
           <button
             key={person.name}
-            className="flex items-start gap-2 p-2 rounded-[15px] duration-300 ease-out border-gray-400 hover:shadow-lg hover:bg-gray-100 w-full"
+            className="cursor-pointer flex items-start gap-2 p-2 rounded-[15px] duration-300 ease-out border-gray-400 hover:shadow-lg hover:bg-gray-100 w-full"
           >
             <img
               src={person.icon}
@@ -101,8 +101,8 @@ const User = () => {
               alt="User"
             />
             <div className="flex flex-col items-start">
-              <span className="font-semibold text-[25px]">{person.name}</span>
-              <span className="font-normal pb-1 text-gray-500">
+              <span className="font-semibold text-xl">{person.name}</span>
+              <span className="font-normal text-md pb-1 text-gray-500">
                 Studying {person.subject} -{" "}
                 <span className="font-semibold text-[15px]">
                   {formatTime(timers[index])}
