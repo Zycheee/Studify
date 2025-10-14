@@ -13,29 +13,29 @@ import Pet from "./pages/Pet/Pet.jsx";
 import Profile from "./pages/Profile/Profile.jsx";
 import Login from "./pages/LoginPage/Login.jsx";
 import Signup from "./pages/SingupPage/Signup.jsx";
+import { StreakProvider } from "./context/StreakContext.jsx";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Redirect root to login */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+    <StreakProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
 
-        {/* Auth routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Signup />} />
 
-        {/* Main layout with nested routes */}
-        <Route path="/" element={<Layout />}>
-          <Route path="home" element={<HomePage />} />
-          <Route path="friends" element={<FriendsPage />} />
-          <Route path="studysession" element={<StudySession />} />
-          <Route path="pet" element={<Pet />} />
-          <Route path="notifications" element={<Notifications />} />
-          <Route path="profile" element={<Profile />} />
-        </Route>
-      </Routes>
-    </Router>
+          <Route path="/" element={<Layout />}>
+            <Route path="home" element={<HomePage />} />
+            <Route path="friends" element={<FriendsPage />} />
+            <Route path="studysession" element={<StudySession />} />
+            <Route path="pet" element={<Pet />} />
+            <Route path="notifications" element={<Notifications />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
+        </Routes>
+      </Router>
+    </StreakProvider>
   );
 }
 
