@@ -13,10 +13,10 @@
     @apply font-semibold text-[20px];
   }
   .button-red {
-    @apply duration-300 ease-in-out bg-red-500 text-white font-bold w-full   p-5 rounded-[10px] active:bg-red-950 hover:bg-red-700 cursor-pointer;
+    @apply duration-100 ease-in-out bg-red-500 text-white font-bold w-full   p-5 rounded-[10px] active:bg-red-950 hover:bg-red-700 cursor-pointer;
   }
   .button-blue {
-    @apply duration-300 ease-in-out bg-blue-500 text-white font-bold w-full     p-4 rounded-[10px] active:bg-blue-950 hover:bg-blue-700 cursor-pointer;
+    @apply duration-100 ease-in-out bg-blue-500 text-white font-bold w-full     p-4 rounded-[10px] active:bg-blue-950 hover:bg-blue-700 cursor-pointer;
   }
 }
 
@@ -44,7 +44,7 @@
 @layer post {
   .Post1 {
     @apply p-5 h-full w-full md:gap-6  rounded-[10px] border-2 font-sans 
-              backdrop-blur-lg bg-[#417ecf]/20 border-r border-[#91bcf5]/20 shadow-lg
+              backdrop-blur-lg bg-[#417ecf]/10 border-r border-[#91bcf5]/20 shadow-lg
               transition-all duration-300;
   }
   .post-text {

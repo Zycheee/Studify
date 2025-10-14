@@ -36,7 +36,7 @@ const UserRequest = () => {
           <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row items-center xl:items-start gap-5 lg:items-center ">
             <img
               src={person.icon}
-              className="w-15 h-15 shadow-xl rounded-full border-2 border-gray-300 cursor-pointer transition-all ease-in-out delay-25"
+              className="w-15 h-15 shadow-xl rounded-full cursor-pointer transition-all ease-in-out duration-100"
               alt="User"
             />
             <div className="grid grid-cols-1">

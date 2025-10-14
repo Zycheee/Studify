@@ -97,7 +97,7 @@ const UserOverview = () => {
           >
             <img
               src={person.icon}
-              className="w-15 h-15 shadow-xl rounded-full border-2 border-gray-300 cursor-pointer transition-all ease-in-out delay-25"
+              className="w-15 h-15 shadow-xl rounded-full cursor-pointer transition-all ease-in-out delay-25"
               alt="User"
             />
             <div className="flex flex-col justify-center items-start">
