@@ -5,7 +5,6 @@ import UserRequest from "./components/UserRequest.jsx";
 
 const Friendspage = () => {
   return (    
-     
     <div className="p-5 font-sans">
       <input
         id="search"
