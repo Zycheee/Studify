@@ -8,7 +8,8 @@ import PetsRoundedIcon from "@mui/icons-material/PetsRounded";
 import NotificationsActiveRoundedIcon from "@mui/icons-material/NotificationsActiveRounded";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { useNavigate } from "react-router-dom";
-
+import LogoutIcon from "@mui/icons-material/Logout";
+import login from "../LoginPage/Login";
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeButton, setActiveButton] = useState(null); // default active button
@@ -40,9 +41,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   return (
-    <div
-      className={`SideBar ${isOpen ? "flex justify-start w-[115px]" : "w-80"}`}
-    >
+    <div className={`SideBar ${isOpen ? "w-[115px]" : "w-80"}`}>
       <div className="column">
         <img
           src={Usericon}
@@ -97,16 +96,34 @@ const Sidebar = () => {
               </span>
             </button>
           ))}
-          <button className=" " onClick={() => setIsOpen(!isOpen)}>
-            <ArrowBackIosIcon
-              className={` Transform transition-all duration-300 ${
-                isOpen
-                  ? "ml-3 rotate-180 translate-x-0 cursor-pointer"
-                  : " rotate-0 translate-x-6 opacity-0"
-              }
+          <div className="flex  flex-col flex-center  justify-between h-80 ">
+            <button className=" " onClick={() => setIsOpen(!isOpen)}>
+              <ArrowBackIosIcon
+                className={`Transform transition-all duration-300 ${
+                  isOpen
+                    ? "mr-3  rotate-180 translate-x-0 cursor-pointer"
+                    : " rotate-0 translate-x-6 opacity-0"
+                }
 `}
-            />
-          </button>
+              />
+            </button>
+            <button
+              onClick={() => navigate("/login")}
+              className={`button1 space-x-5 pr-2 ${
+                isOpen
+                  ? "w-15 justify-center right-100 p-3  hover:bg-[#D5E8FF]"
+                  : "hover:bg-[#D5E8FF] text-[#004FA9] w-65 p-3 "
+              }`}
+            >
+              <LogoutIcon fontSize="large" />
+              <span
+                className={`transition-opacity text-md  duration-150 whitespace-nowrap 
+        ${isOpen ? "opacity-0" : "opacity-100"}`}
+              >
+                Logout
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     </div>

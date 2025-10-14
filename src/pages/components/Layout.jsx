@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar.jsx"; // adjust path if needed
 
 const Layout = () => {
   return (
-    <div className="flex bg-white">
+    <div className="flex ">
       <Sidebar />
       <div className="w-full min-h-screen ">
         <Outlet />
