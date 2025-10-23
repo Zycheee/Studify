@@ -9,6 +9,9 @@ const Pet = () => {
   const [selectedPet, setSelectedPet] = useState(null); //State for selected pet
   const [petName, setPetName] = useState(null);
 
+  const [justEvolved, setJustEvolved] = useState(false); //State for evolution animation
+  const [prevLevel, setPrevLevel] = useState(streakData.streakDays);
+
   useEffect(() => { //Load selected pet from localStorage on component mount
     const savedPet = localStorage.getItem("selectedPet");
     const savedName = localStorage.getItem("petName");
@@ -25,6 +28,26 @@ const Pet = () => {
     }
   }, [canChoosePet]);
 
+  useEffect(() => { //Save yuor level to local storage
+  const savedLevel = parseInt(localStorage.getItem("prevLevel")) || 0;
+  setPrevLevel(savedLevel);
+}, []);
+
+  useEffect(() => {
+  const currentLevel = streakData.streakDays;
+  const milestones = [3, 30, 80];
+
+  if (milestones.includes(currentLevel) && currentLevel > prevLevel) {
+    setJustEvolved(true);  // If we just passed a milestone
+    setTimeout(() => setJustEvolved(false), 2000); // Reset animation flag after a short delay
+  }
+
+  if (currentLevel !== prevLevel) {
+    setPrevLevel(currentLevel);
+    localStorage.setItem("prevLevel", currentLevel);
+  }
+  }, [streakData.streakDays, prevLevel]);
+
   const generatePetName = () => {
     const names = ["Ducay", "Talisic", "Bigno", "Christian", "Kyle", "Jhon"];
     return names[Math.floor(Math.random() * names.length)];
@@ -38,14 +61,14 @@ const Pet = () => {
     localStorage.setItem("petName", randomName);
   };
 
-  const firstEvoPets = [
+  const firstEvoPets = [ //Evolution of Pets
     { name: "Puppy", src: "/Public/Dog/Puppy-Happy.gif" },
     { name: "Chick", src: "/Public/Bird/Baby Chick.gif" },
     { name: "Fish", src: "/Public/Fish/Fish.gif" },
   ];
 
   const secondaryEvoPets = [
-    { name: "Juvenile Dog", src: "/Public/Dog/Juvenile Dog - Happy.gif" },
+    { name: "Juvenile Dog", src: "/Public/Dog/Juvenile Dog- Happy.gif" },
     { name: "Juvenile Bird", src: "/Public/Bird/Juvenile Bird.gif" },
     { name: "Shark", src: "/Public/Fish/Shark.gif" },
   ];
@@ -56,7 +79,46 @@ const Pet = () => {
     { name: "Whale Shark", src: "/Public/Fish/Whale Shark.gif" },
   ];
 
-  const chosenPet = firstEvoPets.find((p) => p.name === selectedPet); //Display if already chosen
+  const getCurrentPetData = () => { //Use to determine current evolution stage (takes no parameters)
+    if (!selectedPet) return null;
+
+    let evoSet = firstEvoPets;
+    const level = streakData.streakDays;
+
+    if (level >= 80) evoSet = finalEvoPets;
+    else if (level >= 30) evoSet = secondaryEvoPets;
+
+    const petMap = { //Match corresponding evolution type
+      Puppy: "Dog",
+      Chick: "Bird",
+      Fish: "Fish",
+    };
+
+    const species = petMap[selectedPet] || ""; //Find the species name of the chosen pet otherwise return empty string
+    return evoSet.find((p) => p.src.includes(species)); //Find matching evolution from evoSet
+  };
+
+  const getCurrentPetName = () => { //Dynamic updating of pet species name
+    const level = streakData.streakDays;
+
+    if (level >= 80) {
+    if (selectedPet === "Puppy") return "Adult Dog";
+    if (selectedPet === "Chick") return "Eagle";
+    if (selectedPet === "Fish") return "Whale Shark";
+    } 
+    else if (level >= 30) {
+    if (selectedPet === "Puppy") return "Juvenile Dog";
+    if (selectedPet === "Chick") return "Juvenile Bird";
+    if (selectedPet === "Fish") return "Shark";
+    } 
+    else {
+    return selectedPet; // still first evolution
+    }
+
+  return selectedPet;
+  };
+
+  const currentPet = getCurrentPetData();
 
   return (
     <div
@@ -79,7 +141,7 @@ const Pet = () => {
         {!canChoosePet
           ? "Achieve 3 streaks to unlock a pet!"
           : !selectedPet
-          ? "Congratuilations! You can now choose a pet!"
+          ? "Congratulations! You can now choose a pet!"
           : ""}
       </h2>
 
@@ -116,9 +178,15 @@ const Pet = () => {
               </p>
             )}
             <img
-              src={chosenPet?.src}
+              src={currentPet?.src}
               alt={selectedPet}
-              style={{ width: "450px", borderRadius: "10px", transition: "transform 0.3s ease", }}
+              key={currentPet?.src}
+              style={{ 
+                width: "450px", 
+                borderRadius: "10px", 
+                transition: "transform 0.6s ease, opacity 0.6s ease",
+                animation: justEvolved ? "evolveEffect 1.5s ease-in-out" : "none",
+              }}
             />
 
             {/* Pet species name */}
@@ -129,7 +197,7 @@ const Pet = () => {
                 fontWeight: "normal",
               }}
             >
-              {selectedPet}
+              {getCurrentPetName()}
             </p>
 
             {/* Pet Level */}
@@ -180,3 +248,4 @@ const Pet = () => {
 };
 
 export default Pet;
+

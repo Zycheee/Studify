@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import FemaleIcon from "/woman-user-circle-icon.svg";
 import Streak from "../components/Streak";
+import { useStreak } from "../../context/StreakContext.jsx";
 
 const Profile = () => {
-  const userInfo = { name: "Haggai Estavilla", friends: 4, streak: 5 };
+  const { streakData } = useStreak(); 
+  const userInfo = { name: "Haggai Estavilla", friends: 4, streak: streakData.streakDays };
 
-const [selectedPet, setSelectedPet] = useState(null);
-const [petName, setPetName] = useState(null);
+  const [selectedPet, setSelectedPet] = useState(null);
+  const [petName, setPetName] = useState(null);
 
   // Load selected pet data from localStorage
   useEffect(() => {
@@ -16,15 +18,65 @@ const [petName, setPetName] = useState(null);
     if (savedName) setPetName(savedName);
   }, []);
 
-  // Pet images 
-  const pets = [
+  // Pet images, Evolution sets
+  const firstEvoPets = [
     { name: "Puppy", src: "/Public/Dog/Puppy-Happy.gif" },
     { name: "Chick", src: "/Public/Bird/Baby Chick.gif" },
     { name: "Fish", src: "/Public/Fish/Fish.gif" },
   ];
 
-  const chosenPet = pets.find((p) => p.name === selectedPet);
+  const secondaryEvoPets = [
+    { name: "Juvenile Dog", src: "/Public/Dog/Juvenile Dog- Happy.gif" },
+    { name: "Juvenile Bird", src: "/Public/Bird/Juvenile Bird.gif" },
+    { name: "Shark", src: "/Public/Fish/Shark.gif" },
+  ];
 
+  const finalEvoPets = [
+    { name: "Adult Dog", src: "/Public/Dog/Adult Dog - Happy.gif" },
+    { name: "Eagle", src: "/Public/Bird/Eagle.gif" },
+    { name: "Whale Shark", src: "/Public/Fish/Whale Shark.gif" },
+  ];
+
+  const getCurrentPetData = () => {
+    if (!selectedPet) return null;
+
+    let evoSet = firstEvoPets;
+    const level = streakData.streakDays;
+
+    if (level >= 80) evoSet = finalEvoPets;
+    else if (level >= 30) evoSet = secondaryEvoPets;
+
+    const petMap = {
+      Puppy: "Dog",
+      Chick: "Bird",
+      Fish: "Fish",
+    };
+
+    const species = petMap[selectedPet] || "";
+    return evoSet.find((p) => p.src.includes(species));
+  };
+
+  const getCurrentPetName = () => { //Dynamic updating of pet species name
+    const level = streakData.streakDays;
+
+    if (level >= 80) {
+    if (selectedPet === "Puppy") return "Adult Dog";
+    if (selectedPet === "Chick") return "Eagle";
+    if (selectedPet === "Fish") return "Whale Shark";
+    } 
+    else if (level >= 30) {
+    if (selectedPet === "Puppy") return "Juvenile Dog";
+    if (selectedPet === "Chick") return "Juvenile Bird";
+    if (selectedPet === "Fish") return "Shark";
+    } 
+    else {
+    return selectedPet; // still first evolution
+    }
+
+  return selectedPet;
+  };
+
+  const currentPet = getCurrentPetData();
 
   return (
     <div className=" flex flex-col growflex-center p-20 mt-10">
@@ -74,12 +126,12 @@ const [petName, setPetName] = useState(null);
                   <>
                     <p className="text-[30px] font-bold mb-2">{petName}</p>
                     <img
-                      src={chosenPet?.src}
+                      src={currentPet?.src}
                       alt={selectedPet}
                       className="w-[220px] rounded-[10px]"
                     />
                     <p className="text-[22px] font-semibold mt-2">
-                      {selectedPet}
+                      {getCurrentPetName()}
                     </p>
                   </>
                 ) : (
