@@ -36,8 +36,8 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   return (
-    <div className={`SideBar ${isOpen ? "w-[115px]" : "w-80"}`}>
-      <div className="column">
+    <div className={`SideBar  ${isOpen ? "w-[115px]" : "w-80"}`}>
+      <div className="column ">
         <img
           src={Usericon}
           alt="User icon"
@@ -65,7 +65,7 @@ const Sidebar = () => {
           />
         </button>
       </div>
-      <div className="flex flex-center">
+      <div className="flex  flex-center">
         <div className="pl-2 space-y-4">
           {buttons.map((btn) => (
             <button
