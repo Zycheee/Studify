@@ -3,6 +3,7 @@ import React, { useState } from "react";
 export default function SearchFriends({ onAddFriend }) {
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const usersDB = [
     {
@@ -46,36 +47,69 @@ export default function SearchFriends({ onAddFriend }) {
   };
 
   return (
-    <div className="w-full max-w-xl p-4 border rounded-lg">
-      <h2 className="text-xl font-bold mb-3">Add Friend by Email</h2>
+    <>
+      {/* FLOATING BUTTON (BOTTOM RIGHT) */}
+      <button
+        onClick={() => setOpen(true)}
+        className="fixed bottom-6 right-6 px-5 py-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition cursor-pointer z-40 font-semibold"
+      >
+        Add a Friend
+      </button>
 
-      <div className="flex gap-2 mb-3">
-        <input
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            setMsg(null);
-          }}
-          placeholder="Enter email..."
-          className="flex-1 px-3 py-2 border rounded"
-        />
-        <button
-          onClick={handleAdd}
-          className="px-4 py-2 bg-blue-600 text-white rounded"
-        >
-          Add
-        </button>
-      </div>
+      {/* MODAL BACKDROP */}
+      {open && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+          {/* MODAL BOX */}
+          <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md animate-fadeIn">
+            {/* MODAL HEADER */}
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold cursor-pointer">
+                Add Friend by Email
+              </h2>
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  setEmail("");
+                  setMsg(null);
+                }}
+                className="text-gray-500 hover:text-gray-800 text-lg cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
 
-      {msg && (
-        <div
-          className={`text-sm ${
-            msg.type === "success" ? "text-green-600" : "text-red-600"
-          }`}
-        >
-          {msg.text}
+            {/* INPUT + BUTTON */}
+            <div className="flex gap-2 mb-3">
+              <input
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setMsg(null);
+                }}
+                placeholder="Enter email..."
+                className="flex-1 px-3 py-2 border rounded"
+              />
+              <button
+                onClick={handleAdd}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition cursor-pointer"
+              >
+                Add
+              </button>
+            </div>
+
+            {/* MESSAGE */}
+            {msg && (
+              <p
+                className={`text-sm ${
+                  msg.type === "success" ? "text-green-600" : "text-red-600"
+                }`}
+              >
+                {msg.text}
+              </p>
+            )}
+          </div>
         </div>
       )}
-    </div>
+    </>
   );
 }
