@@ -20,21 +20,21 @@ const Profile = () => {
 
   // Pet images, Evolution sets
   const firstEvoPets = [
-    { name: "Puppy", src: "/Public/Dog/Puppy-Happy.gif" },
-    { name: "Chick", src: "/Public/Bird/Baby Chick.gif" },
-    { name: "Fish", src: "/Public/Fish/Fish.gif" },
+    { name: "Puppy", src: "/Dog/Puppy.gif" },
+    { name: "Chick", src: "/Bird/Chick.gif" },
+    { name: "Fish", src: "/Fish/Fish.gif" },
   ];
 
   const secondaryEvoPets = [
-    { name: "Juvenile Dog", src: "/Public/Dog/Juvenile Dog- Happy.gif" },
-    { name: "Juvenile Bird", src: "/Public/Bird/Juvenile Bird.gif" },
-    { name: "Shark", src: "/Public/Fish/Shark.gif" },
+    { name: "Juvenile Dog", src: "/Dog/Juvenile Dog.gif" },
+    { name: "Juvenile Bird", src: "/Bird/Juvenile Bird.gif" },
+    { name: "Shark", src: "/Fish/Shark.gif" },
   ];
 
   const finalEvoPets = [
-    { name: "Adult Dog", src: "/Public/Dog/Adult Dog - Happy.gif" },
-    { name: "Eagle", src: "/Public/Bird/Eagle.gif" },
-    { name: "Whale Shark", src: "/Public/Fish/Whale Shark.gif" },
+    { name: "Adult Dog", src: "/Dog/Adult Dog.gif" },
+    { name: "Eagle", src: "/Bird/Eagle.gif" },
+    { name: "Whale Shark", src: "/Fish/Whale Shark.gif" },
   ];
 
   const getCurrentPetData = () => {
