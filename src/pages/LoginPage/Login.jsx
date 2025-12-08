@@ -45,8 +45,8 @@ const Login = () => {
 
     try {
       // Call backend login API
-      const token = await authApi.logIn({ email, password });
-
+      const response = await authApi.logIn({ email, password });
+      const token = response.data;
       // Save token to localStorage
       localStorage.setItem("accessToken", token);
 

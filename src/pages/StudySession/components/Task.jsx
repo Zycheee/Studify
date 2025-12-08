@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import taskApi from "../../../api/taskApi"; // adjust path
+
 
 // Theme colors per mode
 const modeStyles = {
@@ -44,37 +46,67 @@ const modeStyles = {
 };
 
 const Task = ({ activeMode }) => {
-  const [taskText, setTaskText] = useState("");
-  const [tasks, setTasks] = useState([]);
+    const [taskText, setTaskText] = useState("");
+    const [tasks, setTasks] = useState([]);
 
-  const handleAddTask = () => {
-    if (!taskText.trim()) return;
-
-    const newTask = {
-      id: Date.now(),
-      text: taskText,
-      done: false,
+    // Load tasks on mount
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        const response = await taskApi.getAllTasks();
+        if (response.data.success && response.data.data) {
+          setTasks(response.data.data);
+        }
+      } catch (err) {
+        console.error("Fetch tasks error:", err.response?.data || err.message);
+      }
     };
 
-    setTasks([newTask, ...tasks]);
-    setTaskText("");
+    fetchTasks();
+  }, []);
+
+  const handleAddTask = async () => {
+    if (!taskText.trim()) return;
+
+    try {
+      const response = await taskApi.addTask({ title: taskText });
+      console.log("Task added response:", response.data);
+
+      if (response.data.success && response.data.data) {
+        // Add returned task to local state
+        setTasks([response.data.data, ...tasks]);
+        setTaskText("");
+      }
+    } catch (err) {
+      console.error("Add task error:", err.response?.data || err.message);
+    }
   };
 
-  const handleDone = (id) => {
-    setTasks(tasks.map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+
+  const handleDone = async (taskId, isCompleted) => {
+    try {
+      const response = await taskApi.updateTask(taskId, { isCompleted: !isCompleted });
+      if (response.data.success && response.data.data) {
+        setTasks(tasks.map(t => (t.id === taskId ? response.data.data : t)));
+      }
+    } catch (err) {
+      console.error("Update task error:", err.response?.data || err.message);
+    }
   };
 
-  const handleDiscard = (id) => {
-    setTasks(tasks.filter((t) => t.id !== id));
+
+  const handleDiscard = async (taskId) => {
+    try {
+      await taskApi.deleteTask(taskId);
+      setTasks(tasks.filter(t => t.id !== taskId));
+    } catch (err) {
+      console.error("Delete task error:", err.response?.data || err.message);
+    }
   };
 
   return (
-    <div
-      className={`w-full max-w-lg p-5 rounded-xl shadow-lg transition-all duration-300 ${modeStyles[activeMode].taskBg}`}
-    >
-      <h2
-        className={`text-xl font-bold mb-4 ${modeStyles[activeMode].textColor}`}
-      >
+    <div className={`w-full max-w-lg p-5 rounded-xl shadow-lg transition-all duration-300 ${modeStyles[activeMode].taskBg}`}>
+      <h2 className={`text-xl font-bold mb-4 ${modeStyles[activeMode].textColor}`}>
         Your Tasks
       </h2>
 
@@ -84,30 +116,30 @@ const Task = ({ activeMode }) => {
           <div
             key={task.id}
             className={`flex justify-between items-center p-3 rounded-lg transition-all duration-300 ${
-              task.done ? modeStyles[activeMode].doneBg : "bg-black/20"
+              task.isCompleted ? modeStyles[activeMode].doneBg : "bg-black/20"
             }`}
           >
             <span
               className={`text-lg ${
-                task.done
+                task.isCompleted
                   ? `${modeStyles[activeMode].doneText} line-through`
                   : modeStyles[activeMode].textColor
               }`}
             >
-              {task.text}
+              {task.title}
             </span>
 
             <div className="flex space-x-2 w-48">
               {/* DONE / UNDO BUTTON */}
               <button
-                onClick={() => handleDone(task.id)}
+                onClick={() => handleDone(task.id, task.isCompleted)}
                 className={`flex-1 px-3 py-2 rounded-md text-white transition-all duration-200 ${
-                  task.done
+                  task.isCompleted
                     ? `${modeStyles[activeMode].undoButtonBg} ${modeStyles[activeMode].undoButtonHover}`
                     : `${modeStyles[activeMode].doneButtonBg} ${modeStyles[activeMode].doneButtonHover}`
                 }`}
               >
-                {task.done ? "Undo" : "Done"}
+                {task.isCompleted ? "Undo" : "Done"}
               </button>
 
               {/* DISCARD BUTTON */}
@@ -144,3 +176,4 @@ const Task = ({ activeMode }) => {
 };
 
 export default Task;
+

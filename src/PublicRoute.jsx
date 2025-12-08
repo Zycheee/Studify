@@ -6,7 +6,6 @@ export default function PublicRoute({ children }) {
     // If logged in, redirect to study session
     return <Navigate to="/studysession" replace />;
   }
-
   // Otherwise, allow access to the public page
   return children;
 }
