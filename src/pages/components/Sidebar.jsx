@@ -91,30 +91,18 @@ const Sidebar = () => {
               </span>
             </button>
           ))}
-          <div className="flex  flex-col flex-center  justify-between h-80 ">
-            <button className=" " onClick={() => setIsOpen(!isOpen)}>
-              <ArrowBackIosIcon
-                className={`Transform transition-all duration-300 ${
-                  isOpen
-                    ? "mr-3  rotate-180 translate-x-0 cursor-pointer"
-                    : " rotate-0 translate-x-6 opacity-0"
-                }
-`}
-              />
-            </button>
+          <div className="flex flex-col mt-auto p-2">
             <button
-              onClick={() => navigate("/login")}
-              className={`button1 space-x-5 pr-2 ${
-                isOpen
-                  ? "w-15 justify-center right-100 p-3  hover:bg-[#D5E8FF]"
-                  : "hover:bg-[#D5E8FF] text-[#004FA9] w-65 p-3 "
-              }`}
+              onClick={ () => {
+                localStorage.removeItem("accessToken");
+                navigate("/login"); // log out btn
+              }} 
+              className={`button1 flex items-center gap-3 p-3 rounded-md ${
+                isOpen ? "justify-center" : ""
+              } hover:bg-[#D5E8FF] text-[#004FA9]`}
             >
               <LogoutIcon fontSize="large" />
-              <span
-                className={`transition-opacity text-md  duration-150 whitespace-nowrap 
-        ${isOpen ? "opacity-0" : "opacity-100"}`}
-              >
+              <span className={`${isOpen ? "opacity-0" : "opacity-100"} transition-opacity`}>
                 Logout
               </span>
             </button>

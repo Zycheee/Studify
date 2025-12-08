@@ -7,6 +7,8 @@ import register from "../SingupPage/Signup";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import userApi from "../../api/userApi";// Talisic: user api 
+
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -29,55 +31,74 @@ const Signup = () => {
   const [show, setShow] = useState(false);
   const [show1, setShow1] = useState(false);
 
+  // Talisic: store message if email already exists
+  const [backendError, setBackendError] = useState(""); 
+  // Talisic:  disable signup button when waiting for response from backend
+  const [loading, setLoading] = useState(false);        
+
+
+  // Talisic: Show password toggle
   const handleClick = () => {
     setShow(!show);
   };
-  const loginClick = () => {
+
+  //Talisic: This should be handleSignUp instead of loginClick
+  const loginClick = async () => {
     let hasError = false;
+    const newError = {
+      firstName: false,
+      lastName: false,
+      email: false,
+      password: false,
+      confirmPassword: false
+    };
 
-    // First Name validation: letters and spaces only
+
     if (!firstName || !/^[A-Za-z\s]+$/.test(firstName.trim())) {
-      setError((prev) => ({ ...prev, firstName: true }));
+      newError.firstName = true;
       hasError = true;
-    } else {
-      setError((prev) => ({ ...prev, firstName: false }));
     }
 
-    // Last Name validation: letters and spaces only
     if (!lastName || !/^[A-Za-z\s]+$/.test(lastName.trim())) {
-      setError((prev) => ({ ...prev, lastName: true }));
+      newError.lastName = true;
       hasError = true;
-    } else {
-      setError((prev) => ({ ...prev, lastName: false }));
     }
 
-    // Email validation
     if (!email || !email.includes("@") || !email.includes(".")) {
-      setError((prev) => ({ ...prev, email: true }));
+      newError.email = true;
       hasError = true;
-    } else {
-      setError((prev) => ({ ...prev, email: false }));
-    }
-
-    // Password validation
-    if (password != confirmPassword) {
-      setError((prev) => ({ ...prev, confirmPassword: true }));
-      hasError = true;
-    } else {
-      setError((prev) => ({ ...prev, confirmPassword: false }));
     }
 
     if (!password || password.length < 6) {
-      setError((prev) => ({ ...prev, password: true }));
+      newError.password = true;
       hasError = true;
-    } else {
-      setError((prev) => ({ ...prev, password: false }));
     }
 
-    if (hasError) return;
+    if (password !== confirmPassword) {
+      newError.confirmPassword = true;
+      hasError = true;
+    }
 
-    navigate("/home"); // Navigate to HomePage
-  };
+    setError(newError);
+
+    if (hasError) return;
+    
+    // Talisic: --- Call backend API --- 
+  setLoading(true);
+  setBackendError(""); // reset backend error
+
+  const userCreateDTO = { firstname: firstName, lastname: lastName, email, password };
+
+  try {
+    await userApi.signUp(userCreateDTO); // call signup API
+    navigate("/login");                  // go to home page after success
+  } catch (err) {
+    // show backend error
+    setBackendError(err.response?.data?.message || "Signup failed. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div>
@@ -221,10 +242,12 @@ const Signup = () => {
                 </div>
               </div>
               <button
-                onClick={loginClick}
-                className=" p-3 bg-[#267ae9] hover:bg-[#1a61be] text-white rounded-[10px] transition-all cursor-pointer"
-              >
-                Create
+               onClick={loginClick}
+                  disabled={loading}
+                  className={`p-3 text-white rounded-[10px] transition-all cursor-pointer 
+                    ${loading ? "bg-gray-400" : "bg-[#267ae9] hover:bg-[#1a61be]"}`}
+                >
+                  {loading ? "Creating..." : "Create"}
               </button>
 
               <div className="flex justify-center font-regular">

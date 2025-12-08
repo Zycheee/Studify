@@ -12,18 +12,40 @@ import Profile from "./pages/Profile/Profile.jsx";
 import Login from "./pages/LoginPage/Login.jsx";
 import Signup from "./pages/SingupPage/Signup.jsx";
 import { StreakProvider } from "./context/StreakContext.jsx";
+import ProtectedRoute from "./ProtectedRoutes.jsx";
+import RootRedirect from "./RootRedirect.jsx";
+import PublicRoute from "./PublicRoute.jsx";
 
 function App() {
   return (
     <StreakProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
-
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Signup />} />
-
-          <Route path="/" element={<Layout />}>
+          {/* Root dynamically redirects based on token 
+          (if token exist then go to studysession, else login) */}
+          <Route path="/" element={<RootRedirect/>} />
+          
+          {/* Public Routes */}
+          <Route path="/login" element={
+            <PublicRoute> 
+              <Login />
+            </PublicRoute>
+          } 
+          />
+          <Route path="/register" element={
+            <PublicRoute>
+            <Signup />
+            </PublicRoute>
+            } 
+            />
+          
+          {/* Protected Routes */}
+          <Route path="/" element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+          >
             <Route path="friends" element={<FriendsPage />} />
             <Route path="studysession" element={<StudySession />} />
             <Route path="pet" element={<Pet />} />
