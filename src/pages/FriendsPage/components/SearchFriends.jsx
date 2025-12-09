@@ -1,51 +1,57 @@
 import React, { useState } from "react";
+import friendRequestApi from "../../../api/friendRequestApi";
+
 
 export default function SearchFriends({ onAddFriend }) {
   const [email, setEmail] = useState("");
   const [msg, setMsg] = useState(null);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const usersDB = [
-    {
-      name: "Haggai Estavilla",
-      role: "Student",
-      email: "haggai@example.com",
-      icon: "/woman-user-circle-icon.svg",
-    },
-    {
-      name: "Christian Kyle Ducay",
-      role: "Student",
-      email: "christian@example.com",
-      icon: "/man-user-circle-icon.svg",
-    },
-    {
-      name: "Jhon Rosell Talisic",
-      role: "Student",
-      email: "jhon@example.com",
-      icon: "/man-user-circle-icon.svg",
-    },
-  ];
-
-  const handleAdd = () => {
+  const handleAdd = async () => {
     const input = email.trim().toLowerCase();
 
+    // Validate email format
     if (!/\S+@\S+\.\S+/.test(input)) {
       setMsg({ text: "Invalid email format.", type: "error" });
       return;
     }
 
-    const user = usersDB.find((u) => u.email.toLowerCase() === input);
+    setLoading(true);
+    try {
+      const res = await friendRequestApi.sendRequest({ email: input });
 
-    if (!user) {
-      setMsg({ text: "User doesn't exist.", type: "error" });
-      return;
+      if (res.data.success) {
+        setMsg({ text: res.data.message || "Friend request sent!", type: "success" });
+        if (onAddFriend) onAddFriend(res.data.data);
+      } else {
+        setMsg({ text: res.data.message || "Something went wrong.", type: "error" });
+      }
+    } catch (err) {
+      console.log(err);
+
+      // Handle backend errors
+      if (err.response) {
+        switch (err.response.status) {
+          case 404:
+            setMsg({ text: err.response.data?.Message || "User not found.", type: "error" });
+            break;
+          case 409:
+            setMsg({ text: err.response.data?.Message || "Cannot send request.", type: "error" });
+            break;
+          default:
+            setMsg({ text: "Server error. Please try again.", type: "error" });
+        }
+      } else {
+        setMsg({ text: "Network error. Please check your connection.", type: "error" });
+      }
+    } finally {
+      setLoading(false);
     }
-
-    setMsg({ text: "Friend request sent!", type: "success" });
-
-    if (onAddFriend) onAddFriend(user);
   };
 
+
+  
   return (
     <>
       {/* FLOATING BUTTON (BOTTOM RIGHT) */}
@@ -90,10 +96,11 @@ export default function SearchFriends({ onAddFriend }) {
                 className="flex-1 px-3 py-2 border rounded"
               />
               <button
+                disabled={loading}
                 onClick={handleAdd}
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition cursor-pointer"
+                className="px-4 py-2 bg-blue-600 disabled:bg-blue-300 text-white rounded"
               >
-                Add
+                {loading ? "Sending..." : "Add"}
               </button>
             </div>
 
