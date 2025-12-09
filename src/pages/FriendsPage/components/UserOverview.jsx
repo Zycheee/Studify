@@ -18,7 +18,7 @@ const UserOverview = ({ friends, onUnfriend }) => {
 
             <div className="flex flex-col">
               <span className="text-xl font-semibold">
-                {f.firstname} {f.lastName}
+                {f.firstname} {f.lastname}
               </span>
             </div>
           </div>
