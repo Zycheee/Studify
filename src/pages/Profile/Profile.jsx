@@ -2,15 +2,20 @@ import React, { useState, useEffect } from "react";
 import FemaleIcon from "/woman-user-circle-icon.svg";
 import Streak from "../components/Streak";
 import { useStreak } from "../../context/StreakContext.jsx";
+import userApi from "../../api/userApi";
 
 const Profile = () => {
   const { streakData } = useStreak(); 
-  const userInfo = { name: "Haggai Estavilla", friends: 4, streak: streakData.streakDays };
+  const [userInfo, setUserInfo] = useState({
+    name: "Loading...",
+    friends: 0,
+    currentStreak: 0,
+  });
 
   const [selectedPet, setSelectedPet] = useState(null);
   const [petName, setPetName] = useState(null);
 
-  // Load selected pet data from localStorage
+  // Load pet from localStorage
   useEffect(() => {
     const savedPet = localStorage.getItem("selectedPet");
     const savedName = localStorage.getItem("petName");
@@ -18,7 +23,30 @@ const Profile = () => {
     if (savedName) setPetName(savedName);
   }, []);
 
-  // Pet images, Evolution sets
+  // Fetch user profile
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await userApi.getProfile();
+        if (res.data.success && res.data.data) {
+          const data = res.data.data;
+          setUserInfo({
+            name: `${data.firstname} ${data.lastname}`,
+            friends: data.numberOfFriends,
+            currentStreak: data.currentStreakDays,
+          });
+        } else {
+          setUserInfo({ name: "Unknown User", friends: 0, currentStreak: 0 });
+        }
+      } catch (err) {
+        console.error("Failed to fetch profile:", err);
+        setUserInfo({ name: "Unknown User", friends: 0, currentStreak: 0 });
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  // Pet evolution logic (same as before)
   const firstEvoPets = [
     { name: "Puppy", src: "/Dog/Puppy.gif" },
     { name: "Chick", src: "/Bird/Chick.gif" },
@@ -39,107 +67,73 @@ const Profile = () => {
 
   const getCurrentPetData = () => {
     if (!selectedPet) return null;
-
     let evoSet = firstEvoPets;
-    const level = streakData.streakDays;
+    const level = userInfo.currentStreak; // use backend streak
 
     if (level >= 80) evoSet = finalEvoPets;
     else if (level >= 30) evoSet = secondaryEvoPets;
 
-    const petMap = {
-      Puppy: "Dog",
-      Chick: "Bird",
-      Fish: "Fish",
-    };
-
+    const petMap = { Puppy: "Dog", Chick: "Bird", Fish: "Fish" };
     const species = petMap[selectedPet] || "";
     return evoSet.find((p) => p.src.includes(species));
   };
 
-  const getCurrentPetName = () => { //Dynamic updating of pet species name
-    const level = streakData.streakDays;
-
+  const getCurrentPetName = () => {
+    const level = userInfo.currentStreak; // use backend streak
     if (level >= 80) {
-    if (selectedPet === "Puppy") return "Adult Dog";
-    if (selectedPet === "Chick") return "Eagle";
-    if (selectedPet === "Fish") return "Whale Shark";
-    } 
-    else if (level >= 30) {
-    if (selectedPet === "Puppy") return "Juvenile Dog";
-    if (selectedPet === "Chick") return "Juvenile Bird";
-    if (selectedPet === "Fish") return "Shark";
-    } 
-    else {
-    return selectedPet; // still first evolution
+      if (selectedPet === "Puppy") return "Adult Dog";
+      if (selectedPet === "Chick") return "Eagle";
+      if (selectedPet === "Fish") return "Whale Shark";
+    } else if (level >= 30) {
+      if (selectedPet === "Puppy") return "Juvenile Dog";
+      if (selectedPet === "Chick") return "Juvenile Bird";
+      if (selectedPet === "Fish") return "Shark";
+    } else {
+      return selectedPet;
     }
-
-  return selectedPet;
+    return selectedPet;
   };
 
   const currentPet = getCurrentPetData();
 
   return (
-    <div className=" flex flex-col growflex-center p-20 mt-10">
-      <div className="">
-        <div
-          className=" p-5 h-full  grow md:gap-6  rounded-[10px] backdrop-blur-lg bg-[#b0caee]/20 border-white/30 shadow-lg
-              transition-all duration-300"
-        >
-          <div className="flex flex-col gap-10">
-            <div className="flex flex-row gap-5 items-center  w-full">
-              <div className="flex flex-row items-center justify-between w-full">
-                {/* Left side — avatar + name */}
-                <div className="flex flex-col lg:flex-row items-center gap-5">
-                  <img src={FemaleIcon} alt="icon" className="w-25" />
-                  <div className="flex flex-col">
-                    <span className="font-semibold text-[25px] ">
-                      {userInfo.name}
-                    </span>
-                    <span className="text-gray-600 text-[15px]">Student</span>
-                  </div>
+    <div className="flex flex-col growflex-center p-20 mt-10">
+      <div className="p-5 h-full grow md:gap-6 rounded-[10px] backdrop-blur-lg bg-[#b0caee]/20 border-white/30 shadow-lg transition-all duration-300">
+        <div className="flex flex-col gap-10">
+          {/* User Info */}
+          <div className="flex flex-row gap-5 items-center w-full">
+            <div className="flex flex-row items-center justify-between w-full">
+              <div className="flex flex-col lg:flex-row items-center gap-5">
+                <img src={FemaleIcon} alt="icon" className="w-25" />
+                <div className="flex flex-col">
+                  <span className="font-semibold text-[25px]">{userInfo.name}</span>
+                  <span className="text-gray-600 text-[15px]">Student</span>
                 </div>
+              </div>
 
-                {/* Right side — friends */}
-                <div className="flex flex-col items-center mt-27  lg:mt-10">
-                  <span className="font-semibold text-[25px]">Friends</span>
-                  <span className="font-semibold text-[25px]">
-                    {userInfo.friends}
-                  </span>
-                </div>
+              <div className="flex flex-col items-center mt-27 lg:mt-10">
+                <span className="font-semibold text-[25px]">Friends</span>
+                <span className="font-semibold text-[25px]">{userInfo.friends}</span>
               </div>
             </div>
-            <div className="flex flex-col lg:flex-row   gap-10">
-              <div
-                className="p-5 h-full w-full   d:gap-6  rounded-[10px] border-2 font-sans 
-              backdrop-blur-lg bg-[#417ecf]/20 border-r border-[#91bcf5]/20 shadow-lg
-              transition-all duration-300"
-              >
-                <Streak />
-              </div>
+          </div>
 
-              <div
-                className="p-5 h-full w-full rounded-[10px] border-2 font-sans 
-                backdrop-blur-lg bg-[#fafafaff] border-r border-[#91bcf5]/20 shadow-lg
-                transition-all duration-300 flex flex-col items-center justify-center text-center"
-              >
-                {selectedPet ? (
-                  <>
-                    <p className="text-[30px] font-bold mb-2">{petName}</p>
-                    <img
-                      src={currentPet?.src}
-                      alt={selectedPet}
-                      className="w-[220px] rounded-[10px]"
-                    />
-                    <p className="text-[22px] font-semibold mt-2">
-                      {getCurrentPetName()}
-                    </p>
-                  </>
-                ) : (
-                  <p className="text-[20px] text-gray-600">
-                    No pet chosen yet 🐾
-                  </p>
-                )}
-              </div>
+          {/* Streak & Pet */}
+          <div className="flex flex-col lg:flex-row gap-10">
+            <div className="p-5 h-full w-full rounded-[10px] border-2 font-sans backdrop-blur-lg bg-[#417ecf]/20 border-r border-[#91bcf5]/20 shadow-lg transition-all duration-300">
+              <Streak />
+            </div>
+
+            <div className="p-5 h-full w-full rounded-[10px] border-2 font-sans backdrop-blur-lg bg-[#fafafaff] border-r border-[#91bcf5]/20 shadow-lg transition-all duration-300 flex flex-col items-center justify-center text-center">
+              {selectedPet ? (
+                <>
+                  <p className="text-[30px] font-bold mb-2">{petName}</p>
+                  <img src={currentPet?.src} alt={selectedPet} className="w-[220px] rounded-[10px]" />
+                  <p className="text-[22px] font-semibold mt-2">{getCurrentPetName()}</p>
+                </>
+              ) : (
+                <p className="text-[20px] text-gray-600">No pet chosen yet 🐾</p>
+              )}
             </div>
           </div>
         </div>
