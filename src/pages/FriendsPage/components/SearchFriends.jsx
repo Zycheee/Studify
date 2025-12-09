@@ -24,23 +24,41 @@ export default function SearchFriends({ onAddFriend }) {
       if (res.data.success) {
         setMsg({ text: res.data.message || "Friend request sent!", type: "success" });
         if (onAddFriend) onAddFriend(res.data.data);
+        setEmail(""); // clear input after success
       } else {
         setMsg({ text: res.data.message || "Something went wrong.", type: "error" });
       }
     } catch (err) {
       console.log(err);
 
-      // Handle backend errors
       if (err.response) {
         switch (err.response.status) {
           case 404:
-            setMsg({ text: err.response.data?.Message || "User not found.", type: "error" });
+            setMsg({
+              text: err.response.data?.Message || "The user you are trying to add does not exist.",
+              type: "error",
+            });
             break;
           case 409:
-            setMsg({ text: err.response.data?.Message || "Cannot send request.", type: "error" });
+            setMsg({
+              text: err.response.data?.Message || "A friend request between these users already exists.",
+              type: "error",
+            });
+            break;
+          case 500:
+            // Handle server-side duplicate requests more gracefully
+            const serverMsg = err.response.data?.Message;
+            if (serverMsg?.includes("already exists")) {
+              setMsg({
+                text: "You already sent a friend request to this user!",
+                type: "error",
+              });
+            } else {
+              setMsg({ text: "Server error. Please try again later.", type: "error" });
+            }
             break;
           default:
-            setMsg({ text: "Server error. Please try again.", type: "error" });
+            setMsg({ text: "Server error. Please try again later.", type: "error" });
         }
       } else {
         setMsg({ text: "Network error. Please check your connection.", type: "error" });
@@ -49,6 +67,7 @@ export default function SearchFriends({ onAddFriend }) {
       setLoading(false);
     }
   };
+
 
 
   
