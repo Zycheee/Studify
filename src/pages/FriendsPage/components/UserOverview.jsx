@@ -22,7 +22,7 @@ const UserOverview = ({ friends, onUnfriend }) => {
               </span>
             </div>
           </div>
-
+          
           {/* Unfriend button */}
           <button
             onClick={() => onUnfriend(f)}

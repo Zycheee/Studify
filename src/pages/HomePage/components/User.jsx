@@ -1,26 +1,8 @@
-import React, { useEffect, useState } from "react";
-import friendApi from "../../../api/friendApi";
+import React from "react";
 import MaleIcon from "/man-user-circle-icon.svg";
 import FemaleIcon from "/woman-user-circle-icon.svg";
 
-const UserFriends = () => {
-  const [friends, setFriends] = useState([]);
-
-  useEffect(() => {
-    const fetchFriends = async () => {
-      try {
-        const res = await friendApi.getAllFriends(); // fetch friends from backend
-        if (res.data.success && Array.isArray(res.data.data)) {
-          setFriends(res.data.data);
-        }
-      } catch (err) {
-        console.error("Failed to fetch friends:", err);
-      }
-    };
-
-    fetchFriends();
-  }, []);
-
+const User = ({ friends }) => {
   return (
     <div className="flex flex-col gap-2 mt-3 font-sans">
       {friends.length === 0 && (
@@ -29,20 +11,26 @@ const UserFriends = () => {
 
       {friends.map((f) => (
         <div
-          key={f.FriendId} // unique key from backend
-          className="flex items-center gap-2 p-2 rounded-[10px] hover:bg-gray-100"
+          key={f.friendId} // unique key from backend
+          className="flex items-center gap-3 p-2 rounded-[10px] hover:bg-gray-100"
         >
-          {/* No Gender info, use default icon */}
-          <img
-            src={MaleIcon} // fallback icon
-            className="w-12 h-12 rounded-full"
-            alt={`${f.firstname} ${f.lastname}`}
-          />
-          <span>{f.firstname} {f.lastname}</span>
+          <div className="relative">
+            <img
+              src={MaleIcon} // fallback icon, replace if you have gender info
+              className="w-12 h-12 rounded-full"
+              alt={`${f.firstname} ${f.lastName}`}
+            />
+            {f.isOnline && (
+              <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full" />
+            )}
+          </div>
+          <span className="font-semibold text-xl">
+            {f.firstname} {f.lastname}
+          </span>
         </div>
       ))}
     </div>
   );
 };
 
-export default UserFriends;
+export default User;

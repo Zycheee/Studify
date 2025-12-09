@@ -86,9 +86,17 @@ const Sidebar = () => {
 
           <div className="flex flex-col mt-auto p-2">
             <button
-              onClick={() => {
-                localStorage.removeItem("accessToken");
-                navigate("/login");
+              onClick={async () => {
+                try {
+                  // Call backend logout
+                  await userApi.logOut();
+                } catch (err) {
+                  console.error("Failed to log out from server:", err);
+                } finally {
+                  // Remove token and navigate anyway
+                  localStorage.removeItem("accessToken");
+                  navigate("/login");
+                }
               }}
               className={`button1 flex items-center gap-3 p-3 rounded-md ${isOpen ? "justify-center" : ""} hover:bg-[#D5E8FF] text-[#004FA9]`}
             >
