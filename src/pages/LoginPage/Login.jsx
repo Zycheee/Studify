@@ -45,10 +45,14 @@ const Login = () => {
 
     try {
       // Call backend login API
+      // Backend response shape: ResponseDTO<AuthResponseDTO>
+      // i.e. { success, message, data: { accessToken, refreshToken, accessTokenExpiresAt } }
       const response = await authApi.logIn({ email, password });
-      const token = response.data;
-      // Save token to localStorage
-      localStorage.setItem("accessToken", token);
+      const { accessToken, refreshToken } = response.data.data;
+
+      // Persist both tokens so the refresh interceptor can silently renew sessions
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
 
       // Redirect to study session page
       navigate("/studysession");

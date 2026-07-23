@@ -6,7 +6,7 @@ const StreakContext = createContext();
 // Provider component
 export const StreakProvider = ({ children }) => {
   const [streakData, setStreakData] = useState({
-    streakDays: 0,
+    streakDays: 80,
   });
 
   // Function to increase streak

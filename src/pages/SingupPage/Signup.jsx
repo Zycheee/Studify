@@ -4,7 +4,8 @@ import Logo from "/logo.png";
 import { useNavigate } from "react-router-dom";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import userApi from "../../api/userApi"; // Talisic: user api
+import userApi from "../../api/userApi";
+import authApi from "../../api/authApi";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -77,16 +78,18 @@ const Signup = () => {
     setLoading(true);
     setBackendError("");
 
-    const userCreateDTO = {
-      firstname: firstName,
-      lastname: lastName,
-      email,
-      password,
-    };
-
     try {
-      await userApi.signUp(userCreateDTO);
-      navigate("/login");
+      // Backend registers the user and auto-issues tokens (ResponseDTO<AuthResponseDTO>)
+      const response = await authApi.register({
+        firstname: firstName,
+        lastname: lastName,
+        email,
+        password,
+      });
+      const { accessToken, refreshToken } = response.data.data;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      navigate("/studysession");
     } catch (err) {
       const msg = err.response?.data?.Message || err.response?.data?.message;
       if (err.response?.status === 409 && msg === "Email is already used") {

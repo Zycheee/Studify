@@ -16,7 +16,15 @@ const Friendbar = () => {
         console.error(err);
       }
     };
+
+    // Initial fetch
     fetchFriends();
+
+    // Poll every 5 seconds for real-time status updates
+    const intervalId = setInterval(fetchFriends, 5000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   return (

@@ -6,6 +6,7 @@ import PetsRoundedIcon from "@mui/icons-material/PetsRounded";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate, useLocation } from "react-router-dom";
 import userApi from "../../api/userApi";
+import authApi from "../../api/authApi";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,10 +54,13 @@ const Sidebar = () => {
 
   const confirmLogout = async () => {
     try {
-      await userApi.logOut();
-    } catch {}
+      await authApi.logOut();
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
 
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     navigate("/login");
   };
 
