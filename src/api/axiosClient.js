@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Axios instance using env var so we never hardcode the backend URL
 const axiosClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL || "https://studifyapi.onrender.com/api",
   headers: { "Content-Type": "application/json" },
 });
 
