@@ -1,28 +1,36 @@
 import React from "react";
 
-const UserOverview = ({ friends }) => {
+const UserOverview = ({ friends, onUnfriend }) => {
   return (
     <div className="flex flex-col gap-2 w-full mt-3 font-sans text-gray-700">
-      {friends.length === 0 && <p className="text-gray-500">No friends yet.</p>}
+      {friends.length === 0 && (
+        <p className="text-gray-500">No friends yet.</p>
+      )}
 
-      {friends.map((person) => (
-        <button
-          key={person.email}
-          className="flex items-start gap-2 p-2 rounded-[15px] duration-300 ease-out border-gray-400 hover:shadow-lg hover:bg-gray-100"
+      {friends.map((f) => (
+        <div
+          key={f.friendId}
+          className="flex items-center justify-between gap-3 p-3 rounded-[10px] border border-gray-300 hover:bg-gray-100 transition"
         >
-          <img
-            src={person.icon}
-            className="w-15 h-15 shadow-xl rounded-full"
-            alt=""
-          />
+          <div className="flex items-center gap-3">
+            {/* Placeholder avatar */}
+            <div className="w-12 h-12 bg-gray-300 rounded-full" />
 
-          <div className="flex flex-col justify-center items-start">
-            <span className="font-semibold text-2xl">{person.name}</span>
-            <span className="font-normal pb-1 text-gray-500">
-              Friend • {person.role}
-            </span>
+            <div className="flex flex-col">
+              <span className="text-xl font-semibold">
+                {f.firstname} {f.lastname}
+              </span>
+            </div>
           </div>
-        </button>
+          
+          {/* Unfriend button */}
+          <button
+            onClick={() => onUnfriend(f)}
+            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+          >
+            Unfriend
+          </button>
+        </div>
       ))}
     </div>
   );

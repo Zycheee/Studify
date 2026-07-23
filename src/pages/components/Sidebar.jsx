@@ -1,18 +1,20 @@
-import React, { useState } from "react";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import Usericon from "/man-user-circle-icon.svg"; // correct path
-import HomeIcon from "@mui/icons-material/Home";
+import React, { useEffect, useState } from "react";
+import Usericon from "/man-user-circle-icon.svg";
 import AutoStoriesRoundedIcon from "@mui/icons-material/AutoStoriesRounded";
 import PeopleAltRoundedIcon from "@mui/icons-material/PeopleAltRounded";
 import PetsRoundedIcon from "@mui/icons-material/PetsRounded";
-import NotificationsActiveRoundedIcon from "@mui/icons-material/NotificationsActiveRounded";
-import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
-import { useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
-import login from "../LoginPage/Login";
+import { useNavigate, useLocation } from "react-router-dom";
+import userApi from "../../api/userApi";
+import authApi from "../../api/authApi";
+
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeButton, setActiveButton] = useState(null); // default active button
+  const [userName, setUserName] = useState("Loading...");
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const buttons = [
     {
@@ -25,103 +27,167 @@ const Sidebar = () => {
       icon: <PeopleAltRoundedIcon fontSize="large" />,
       path: "/friends",
     },
-    { name: "Pet", icon: <PetsRoundedIcon fontSize="large" />, path: "/pet" },
-
     {
-      name: "Profile",
-      icon: <PersonRoundedIcon fontSize="large" />,
-      path: "/profile",
+      name: "Pet",
+      icon: <PetsRoundedIcon fontSize="large" />,
+      path: "/pet",
     },
   ];
-  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const res = await userApi.getProfile();
+        if (res.data?.success && res.data?.data) {
+          setUserName(`${res.data.data.firstname} ${res.data.data.lastname}`);
+        } else {
+          setUserName("Unknown User");
+        }
+      } catch (err) {
+        console.error("Failed to fetch profile:", err);
+        setUserName("Unknown User");
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  const confirmLogout = async () => {
+    try {
+      await authApi.logOut();
+    } catch (err) {
+      console.error("Logout failed", err);
+    }
+
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    navigate("/login");
+  };
+
+  const isProfileActive = location.pathname === "/profile";
 
   return (
-    <div className={`SideBar  ${isOpen ? "w-[115px]" : "w-80"}`}>
-      <div className="column ">
-        <img
-          src={Usericon}
-          alt="User icon"
-          className="Icon transition-opacity duration-150 whitespace-nowrap 
-        "
-        />
-        <button className="flex flex-center gap-2">
-          {!isOpen && (
-            <span
-              className={`transition-opacity text-xl font-bold duration-150 whitespace-nowrap 
-        ${isOpen ? "opacity-0" : "opacity-100"}`}
-            >
-              Haggai Estavilla
-            </span>
-          )}
-        </button>
-        <button className=" " onClick={() => setIsOpen(!isOpen)}>
-          <ArrowBackIosIcon
-            className={`transition-all duration-300  ${
-              isOpen
-                ? "ml-3 rotate-180 translate-x-5 opacity-0"
-                : " rotate-0 translate-x-3 cursor-pointer"
-            }
-`}
-          />
-        </button>
-      </div>
-      <div className="flex  flex-center">
-        <div className="pl-2 space-y-4">
-          {buttons.map((btn) => (
-            <button
-              key={btn.name}
-              onClick={() => {
-                setActiveButton(btn.name);
-                navigate(btn.path); // navigate to the page
-              }}
-              className={`button1 ${
-                isOpen ? "w-15 justify-center right-100 p-3 " : "w-65 p-3 "
-              } ${
-                activeButton === btn.name
+    <>
+      {/* SIDEBAR */}
+      <div
+        className={`SideBar flex flex-col transition-all duration-300 ${
+          isOpen ? "w-80" : "w-[115px]"
+        }`}
+        onMouseEnter={() => setIsOpen(true)}
+        onMouseLeave={() => setIsOpen(false)}
+      >
+        {/* PROFILE BUTTON */}
+        <div className="pl-2 pt-2">
+          <button
+            onClick={() => navigate("/profile")}
+            className={`button1 flex items-center gap-3 p-3 rounded-md transition-colors
+              ${
+                isProfileActive
                   ? "bg-[#90c2ff] text-[#004FA9]"
                   : "hover:bg-[#D5E8FF] text-[#004FA9]"
+              }
+              ${isOpen ? "w-65" : "w-15 justify-center"}
+            `}
+          >
+            <img
+              src={Usericon}
+              alt="User icon"
+              className="block w-10 h-10 object-cover"
+            />
+
+            <span
+              className={`transition-opacity duration-300 ${
+                isOpen ? "opacity-100" : "opacity-0"
               }`}
             >
-              {btn.icon}
-              <span
-                className={`transition-opacity text-md duration-150 whitespace-nowrap 
-        ${isOpen ? "opacity-0" : "opacity-100"}`}
+              {userName}
+            </span>
+          </button>
+        </div>
+
+        {/* MENU BUTTONS */}
+        <div className="pl-2 space-y-4 mt-5">
+          {buttons.map((btn) => {
+            const isActive = location.pathname === btn.path;
+
+            return (
+              <button
+                key={btn.name}
+                onClick={() => navigate(btn.path)}
+                className={`button1 flex items-center gap-3 p-3 rounded-md transition-colors
+                  ${
+                    isActive
+                      ? "bg-[#90c2ff] text-[#004FA9]"
+                      : "hover:bg-[#D5E8FF] text-[#004FA9]"
+                  }
+                  ${isOpen ? "w-65" : "w-15 justify-center"}
+                `}
               >
-                {btn.name}
-              </span>
-            </button>
-          ))}
-          <div className="flex  flex-col flex-center  justify-between h-80 ">
-            <button className=" " onClick={() => setIsOpen(!isOpen)}>
-              <ArrowBackIosIcon
-                className={`Transform transition-all duration-300 ${
-                  isOpen
-                    ? "mr-3  rotate-180 translate-x-0 cursor-pointer"
-                    : " rotate-0 translate-x-6 opacity-0"
-                }
-`}
-              />
-            </button>
-            <button
-              onClick={() => navigate("/login")}
-              className={`button1 space-x-5 pr-2 ${
-                isOpen
-                  ? "w-15 justify-center right-100 p-3  hover:bg-[#D5E8FF]"
-                  : "hover:bg-[#D5E8FF] text-[#004FA9] w-65 p-3 "
+                {btn.icon}
+
+                <span
+                  className={`transition-opacity duration-300 ${
+                    isOpen ? "opacity-100" : "opacity-0"
+                  }`}
+                >
+                  {btn.name}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* LOGOUT BUTTON (PUSHED TO BOTTOM) */}
+        <div className="mt-auto pl-2 pb-4">
+          <button
+            onClick={() => setShowLogoutConfirm(true)}
+            className={`button1 flex items-center gap-3 p-3 rounded-md transition-colors
+              hover:bg-[#D5E8FF]
+              ${isOpen ? "w-65" : "w-15 justify-center"}
+            `}
+          >
+            <LogoutIcon fontSize="large" />
+
+            <span
+              className={`transition-opacity duration-300 ${
+                isOpen ? "opacity-100" : "opacity-0"
               }`}
             >
-              <LogoutIcon fontSize="large" />
-              <span
-                className={`transition-opacity text-md  duration-150 whitespace-nowrap 
-        ${isOpen ? "opacity-0" : "opacity-100"}`}
-              >
-                Logout
-              </span>
-            </button>
-          </div>
+              Logout
+            </span>
+          </button>
         </div>
       </div>
-    </div>
+
+      {/* LOGOUT CONFIRMATION MODAL */}
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[300px] text-center">
+            <h2 className="text-xl font-semibold mb-4 text-[#004FA9]">
+              Confirm Logout
+            </h2>
+            <p className="text-gray-700 mb-6">
+              Are you sure you want to log out?
+            </p>
+
+            <div className="flex justify-center gap-4">
+              <button
+                onClick={confirmLogout}
+                className="px-4 py-2 bg-[#004FA9] text-white rounded-md hover:bg-[#003c82]"
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

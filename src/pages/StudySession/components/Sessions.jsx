@@ -72,7 +72,7 @@ const Sessions = ({ onModeChange }) => {
     setTimeLeft(MODES[mode]);
     setActiveId(null);
 
-    // 🔥 Notify parent
+    // Notify parent
     if (onModeChange) onModeChange(mode);
   };
 
